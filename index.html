@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href='http://fonts.googleapis.com/css?family=Orbitron:900' rel='stylesheet' type='text/css'>
     <title>Spice Invaders</title>
     <link rel="stylesheet" type="text/css" href="css/core.css">
     <link rel="stylesheet" type="text/css" href="css/typeography.css">
@@ -21,10 +22,14 @@
           margin-left: auto;
           margin-right: auto;
       }
+
+      @font-face {
+        font-family: 'Obitron';
+        src: url('http://fonts.googleapis.com/css?family=Orbitron:900');
+      }
     </style>
   </head>
   <body>
-    <div id="starfield"></div>
     <div id="gamecontainer">
       <canvas id="gameCanvas"></canvas>
     </div>
@@ -38,6 +43,16 @@
       var canvas = document.getElementById("gameCanvas");
       canvas.width = 800;
       canvas.height = 600;
+
+      ctx = canvas.getContext("2d");
+
+      var background = new Image();
+      background.src = "img/spice_back2_fixed.jpg";
+
+      // Make sure the image is loaded first otherwise nothing will draw.
+      background.onload = function(){
+          ctx.drawImage(background,0,0, 800, 600);
+      }
 
       //  Create the game.
       var game = new Game();

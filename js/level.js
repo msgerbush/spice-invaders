@@ -14,16 +14,14 @@ LevelIntroState.prototype.enter = function(game) {
 }
 
 LevelIntroState.prototype.draw = function(game, dt, ctx) {
+  ctx.drawImage(background, 0, 0, game.width, game.height);
 
-  //  Clear the background.
-  ctx.clearRect(0, 0, game.width, game.height);
-
-  ctx.font="36px Arial";
-  ctx.fillStyle = '#000000';
+  ctx.font="36px Orbitron";
+  ctx.fillStyle = font_color;
   ctx.textBaseline="middle";
   ctx.textAlign="center";
   ctx.fillText("Level " + this.level, game.width / 2, game.height/2);
-  ctx.font="24px Arial";
+  ctx.font="24px Orbitron";
   ctx.fillText("Ready in " + this.countdownMessage, game.width / 2, game.height/2 + 36);
 };
 

@@ -231,9 +231,7 @@ PlayState.prototype.fireRocket = function() {
 };
 
 PlayState.prototype.draw = function(game, dt, ctx) {
-
-  //  Clear the background.
-  ctx.clearRect(0, 0, game.width, game.height);
+  ctx.drawImage(background, 0, 0, game.width, game.height);
 
   //  Draw ship.
   ctx.fillStyle = '#999999';

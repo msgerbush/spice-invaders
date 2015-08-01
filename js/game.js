@@ -1,3 +1,4 @@
+font_color = "#ffe401";
 var spice_rocket = new Image();
 spice_rocket.src = 'img/pepper_40px.png';
 
@@ -167,15 +168,14 @@ function WelcomeState() {
 }
 
 WelcomeState.prototype.draw = function(game, dt, ctx) {
-  //  Clear the background.
-  ctx.clearRect(0, 0, game.width, game.height);
+  ctx.drawImage(background, 0, 0, game.width, game.height);
 
-  ctx.font="30px Arial";
-  ctx.fillStyle = '#000000';
+  ctx.font="30px Orbitron";
+  ctx.fillStyle = font_color;
   ctx.textBaseline="center";
   ctx.textAlign="center";
-  ctx.fillText("Space Invaders", game.width / 2, game.height/2 - 40);
-  ctx.font="16px Arial";
+  ctx.fillText("Spice Invaders", game.width / 2, game.height/2 - 40);
+  ctx.font="16px Orbitron";
 
   ctx.fillText("Press 'Space' to start.", game.width / 2, game.height/2);
 };
