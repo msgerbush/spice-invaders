@@ -8,12 +8,11 @@
    $(document).ready(function(){
      var card = new SW.Card();
      card.services("helpdesk").on('showTicket', function(ticketId){
-      console.log(ticketId);
-      ticket = card.services('helpdesk').request('ticket', ticketId);
+    ticket = card.services('helpdesk').request('ticket', ticketId);
+    console.log(ticket.description);
     })
    });
   </script>
->>>>>>> Stashed changes
     <title>Spice Invaders</title>
     <link rel="stylesheet" type="text/css" href="css/core.css">
     <link rel="stylesheet" type="text/css" href="css/typeography.css">
