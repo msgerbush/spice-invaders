@@ -1,6 +1,4 @@
 font_color = "#ffe401";
-var spice_rocket = new Image();
-spice_rocket.src = 'img/pepper_40px.png';
 
 function Game() {
   // Set the initial config.
@@ -53,7 +51,7 @@ Game.prototype.initialise = function(gameCanvas) {
     left: gameCanvas.width / 2 - this.config.gameWidth / 2,
     right: gameCanvas.width / 2 + this.config.gameWidth / 2,
     top: gameCanvas.height / 2 - this.config.gameHeight / 2,
-    bottom: gameCanvas.height / 2 + this.config.gameHeight / 2,
+    bottom: gameCanvas.height / 2 + this.config.gameHeight / 1.5,
   };
 };
 

@@ -39,7 +39,16 @@
       //  Setup the canvas.
       var canvas = document.getElementById("gameCanvas");
       canvas.width = 800;
-      canvas.height = 600;
+      canvas.height = 500;
+
+      var spice_rocket = new Image();
+      spice_rocket.src = 'img/pepper_40px.png';
+
+      var spice_bomb = new Image();
+      spice_bomb.src = 'img/side_pepper_40px.png';
+
+      var scott_ship = new Image();
+      scott_ship.src = 'img/scott_ship.png';
 
       ctx = canvas.getContext("2d");
 
@@ -48,7 +57,7 @@
 
       // Make sure the image is loaded first otherwise nothing will draw.
       background.onload = function(){
-          ctx.drawImage(background,0,0, 800, 600);
+          ctx.drawImage(background,0,0, canvas.width, canvas.height);
       }
 
       //  Create the game.

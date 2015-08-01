@@ -235,7 +235,7 @@ PlayState.prototype.draw = function(game, dt, ctx) {
 
   //  Draw ship.
   ctx.fillStyle = '#999999';
-  ctx.fillRect(this.ship.x - (this.ship.width / 2), this.ship.y - (this.ship.height / 2), this.ship.width, this.ship.height);
+  ctx.drawImage(scott_ship, this.ship.x - this.ship.width / 2, this.ship.y - this.ship.height / 2, this.ship.width, this.ship.height);
 
   //  Draw invaders.
   ctx.fillStyle = '#006600';
@@ -248,14 +248,13 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = '#ff5555';
   for(var i=0; i<this.bombs.length; i++) {
     var bomb = this.bombs[i];
-    ctx.fillRect(bomb.x - 2, bomb.y - 2, 4, 4);
+    ctx.drawImage(spice_bomb, bomb.x, bomb.y - 2, 20, 20);
   }
 
   //  Draw rockets.
   ctx.fillStyle = '#ff0000';
   for(var i=0; i<this.rockets.length; i++) {
     var rocket = this.rockets[i];
-    //ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
     ctx.drawImage(spice_rocket, rocket.x, rocket.y - 2, 10, 30);
   }
 
