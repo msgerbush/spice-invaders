@@ -1,13 +1,16 @@
+var spice_rocket = new Image();
+spice_rocket.src = 'img/pepper_40px.png';
+
 function Game() {
   // Set the initial config.
   this.config = {
     bombRate: 0.05,
-    bombMinVelocity: 50,
-    bombMaxVelocity: 50,
+    bombMinVelocity: 300,
+    bombMaxVelocity: 300,
     invaderInitialVelocity: 25,
     invaderAcceleration: 0,
     invaderDropDistance: 20,
-    rocketVelocity: 120,
+    rocketVelocity: 400,
     rocketMaxFireRate: 2,
     gameWidth: 400,
     gameHeight: 300,
@@ -15,13 +18,13 @@ function Game() {
     debugMode: false,
     invaderRanks: 5,
     invaderFiles: 10,
-    shipSpeed: 120,
+    shipSpeed: 200,
     levelDifficultyMultiplier: 0.2,
     pointsPerInvader: 5
   };
 
   // All state is in the variables below.
-  this.lives = 3;
+  this.lives = 1;
   this.width = 0;
   this.height = 0;
   this.level = 1;
@@ -150,7 +153,7 @@ Game.prototype.start = function() {
   this.moveToState(new WelcomeState());
 
   //  Set the game variables.
-  this.lives = 3;
+  this.lives = 1;
   this.config.debugMode = /debug=true/.test(window.location.href);
 
   //  Start the game loop.
@@ -179,7 +182,6 @@ WelcomeState.prototype.draw = function(game, dt, ctx) {
 
 WelcomeState.prototype.keyDown = function(game, keyCode) {
   if(keyCode == 32) /*space*/ {
-    console.log('hi');
     //  Space starts the game.
     game.moveToState(new LevelIntroState(game.level));
   }
@@ -211,7 +213,11 @@ Game.prototype.keyUp = function(keyCode) {
 */
 function LevelIntroState(level) {
   this.level = level;
-  this.countdownMessage = "3";
+  this.countdownMessage = "1";
+}
+
+LevelIntroState.prototype.enter = function(game) {
+  game.lives = 1
 }
 
 LevelIntroState.prototype.draw = function(game, dt, ctx) {
@@ -232,7 +238,7 @@ LevelIntroState.prototype.update = function(game, dt) {
 
   //  Update the countdown.
   if(this.countdown === undefined) {
-    this.countdown = 3; // countdown from 3 secs
+    this.countdown = 1; // countdown from 3 secs
   }
   this.countdown -= dt;
 
@@ -506,9 +512,7 @@ PlayState.prototype.enter = function(game) {
   }
 //  Check for failure
   if(game.lives <= 0) {
-    console.log('LOSER');
-    game.moveToState(new LevelIntroState(game.level));
-    //game.moveToState(new GameOverState());
+    game.moveToState(new GameOverState());
   }
 
   //  Check for victory
@@ -553,7 +557,26 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = '#ff0000';
   for(var i=0; i<this.rockets.length; i++) {
     var rocket = this.rockets[i];
-    ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
+    //ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
+    ctx.drawImage(spice_rocket, rocket.x, rocket.y - 2, 10, 30);
   }
 
 };
+
+function GameOverState() {
+
+};
+
+GameOverState.prototype.draw = function(game, dt, ctx){
+  ctx.clearRect(0, 0, game.width, game.height);
+  ctx.fillStyle = '#000000';
+  ctx.fillText("Game Over", game.width / 2, game.height/2);
+  ctx.fillText("press r to play again", game.width / 2, game.height / 1.8);
+};
+
+GameOverState.prototype.keyDown = function(game, keyCode) {
+  if(keyCode == 82){
+    game.moveToState(new LevelIntroState(game.level));
+  }
+};
+
