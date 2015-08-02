@@ -44,6 +44,6 @@ VictoryState.prototype.update = function(game, dt) {
   if(!this.closed && this.time > game.config.victoryTime){
     card.services('helpdesk').request('ticket:update', game.ticketId, { status: 'closed' });
     this.closed = true;
-    card.services('environment').trigger('navigate', 'tickets/v2#closed_tickets/' + game.ticketId);
+    //card.services('environment').trigger('navigate', 'tickets/v2#closed_tickets/' + game.ticketId);
   }
 }
