@@ -186,8 +186,8 @@ PlayState.prototype.enter = function(game) {
     for(var j=0; j<this.rockets.length; j++){
       var rocket = this.rockets[j];
 
-      if(rocket.x >= (invader.x - invader.width/2) && rocket.x <= (invader.x + invader.width/2) &&
-        rocket.y >= (invader.y - invader.height/2) && rocket.y <= (invader.y + invader.height/2)) {
+      if(rocket.x >= (invader.x) && rocket.x <= (invader.x + invader.width) &&
+        rocket.y >= (invader.y) && rocket.y <= (invader.y + invader.height)) {
 
         //  Remove the rocket, set 'bang' so we don't process
         //  this rocket again.

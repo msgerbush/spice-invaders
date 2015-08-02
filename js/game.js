@@ -62,42 +62,41 @@ box = null;
 Game.prototype.initialise = function(gameCanvas) {
   //  Set the game canvas.
   var game = this;
-   $(document).ready(function(){
-     var card = new SW.Card();
-     card.services("helpdesk").on('showTicket', function(ticketId){
-      game.ticketId = ticketId;
-      card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
-        console.log(ticket['creator']['first_name']);
-        document.getElementById('summary').innerHTML = ticket['summary'];
-        document.getElementById('description').innerHTML = ticket['description'];
-        //document.getElementById('icon').innerHTML = ticket['creator']['avatar_path'];
-        document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
-        document.getElementById('status').innerHTML = "Status: " + ticket['status'];
-        document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
-        console.log(ticket['creator']['last_name']);
-        document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
-        console.log(ticket['creator']['avatar_path']);
-        console.log(ticket['description']);
-        var description = ticket['description'];
-
-        html2canvas(jQuery('ticket')[0], { onrendered: function(canvas){
-          box = canvas.getContext('2d');
-          $('.ticket').remove();
-        }});
-      }, function(reason) {
-        console.log(reason); //Error!
-      });
-    });
-
-  });
   this.gameCanvas = gameCanvas;
 
-  /*
- html2canvas(jQuery('.ticket')[0], { onrendered: function(canvas){
-   box = canvas.getContext('2d');
-   $('.ticket').remove();
-  }});
-  */
+  if(self == top){
+    $('.ticket').remove();
+    html2canvas($('.mock_ticket')[0], { onrendered: function(canvas){
+      box = canvas.getContext('2d');
+      $('.mock_ticket').remove();
+    }});
+  }
+  else{
+    $('.mock_ticket').remove();
+    $(document).ready(function(){
+      var card = new SW.Card();
+      card.services("helpdesk").on('showTicket', function(ticketId){
+        game.ticketId = ticketId;
+        card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
+          document.getElementById('summary').innerHTML = ticket['summary'];
+          document.getElementById('description').innerHTML = ticket['description'];
+          document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
+          document.getElementById('status').innerHTML = "Status: " + ticket['status'];
+          document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
+          document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
+          var description = ticket['description'];
+
+          html2canvas($('ticket')[0], { onrendered: function(canvas){
+            box = canvas.getContext('2d');
+            $('.ticket').remove();
+          }});
+        }, function() {
+          console.log('FAIL');
+        });
+      });
+
+    });
+  }
 
 
   //  Set the game width and height.
