@@ -58,6 +58,7 @@ function Game() {
   this.gameCanvas = null;
 }
 
+box = null;
 // constructor thingy
 Game.prototype.initialise = function(gameCanvas) {
   //  Set the game canvas.
@@ -83,6 +84,11 @@ Game.prototype.initialise = function(gameCanvas) {
         console.log(reason); //Error!
       });
     });
+
+    html2canvas(jQuery('ticket')[0], { onrendered: function(canvas){
+      box = canvas.getContext('2d');
+    }});
+
   });
   this.gameCanvas = gameCanvas;
 
