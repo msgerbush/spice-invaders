@@ -213,8 +213,9 @@ PlayState.prototype.enter = function(game) {
 //  Check for bomb/ship collisions.
   for(var i=0; i<this.bombs.length; i++) {
     var bomb = this.bombs[i];
-    if(bomb.x >= (this.ship.x - this.ship.width/2) && bomb.x <= (this.ship.x + this.ship.width/2) &&
-        bomb.y >= (this.ship.y - this.ship.height/2) && bomb.y <= (this.ship.y + this.ship.height/2)) {
+    var ship = this.ship;
+    var dist2 = (bomb.x - ship.x) * (bomb.x - ship.x) + (bomb.y - ship.y) * (bomb.y - ship.y);
+    if(dist2 <= ship.r2){
       this.bombs.splice(i--, 1);
       game.lives--;
       game.playSound('explosion');
@@ -233,6 +234,22 @@ PlayState.prototype.enter = function(game) {
       game.playSound('explosion');
     }
   }
+
+//  Check for rocket/invader collisions.
+
+  if(this.mothership && this.rockets.length > 0){
+    var rocket = this.rockets[0];
+    var ms = this.mothership;
+
+    var dist2 = (rocket.x - ms.x) * (rocket.x - ms.x) + (rocket.y - ms.y) * (rocket.y - ms.y);
+    if(dist2 <= ms.r2){
+      //  Remove the rocket, set 'bang' so we don't process
+      //  this rocket again.
+      this.rockets.splice(0, 1);
+      this.mothership = null;
+    }
+  }
+
 //  Check for failure
   if(game.lives <= 0) {
     game.moveToState(new GameOverState());
@@ -260,6 +277,15 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = '#999999';
   var ship_idx = Math.floor(Math.random() * 4);
   ctx.drawImage(motherships[ship_idx], this.ship.x - this.ship.width / 2, this.ship.y - this.ship.height / 2, this.ship.width, this.ship.height);
+
+
+  //ctx.arc(this.ship.x, this.ship.y, this.ship.height / 2, 0, Math.PI * 2, true);
+  //ctx.lineWidth = 3;
+
+  // line color
+  //ctx.strokeStyle = "white";
+  //ctx.stroke();
+  //ctx.fill();
 
   //  Draw mothership.
   if(this.mothership != null){

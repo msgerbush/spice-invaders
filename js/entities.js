@@ -3,6 +3,7 @@ function Ship(x, y) {
   this.y = y;
   this.width = 80;
   this.height = 64;
+  this.r2 = this.height * this.height / 4;
 }
 
 function Mothership(x, y) {
@@ -10,6 +11,7 @@ function Mothership(x, y) {
   this.y = y;
   this.width = 80;
   this.height = 64;
+  this.r2 = this.height * this.height / 4;
   this.idx = mothership_index
   this.velocity = 120;
   mothership_index = (mothership_index + 1) % 4
