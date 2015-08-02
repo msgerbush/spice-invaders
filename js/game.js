@@ -80,22 +80,22 @@ Game.prototype.initialise = function(gameCanvas) {
         console.log(ticket['description']);
         var description = ticket['description'];
 
-        html2canvas(jQuery('ticket')[0], { onrendered: function(canvas){
-          box = canvas.getContext('2d');
-          $('.ticket').remove();
-        }});
-      }, function(reason) {
-        console.log(reason); //Error!
-      });
+      //   html2canvas(jQuery('ticket')[0], { onrendered: function(canvas){
+      //     box = canvas.getContext('2d');
+      //     $('.ticket').remove();
+      //   }});
+      // }, function(reason) {
+      //   console.log(reason); //Error!
+      // });
     });
 
   });
   this.gameCanvas = gameCanvas;
 
- // html2canvas(jQuery('.ticket')[0], { onrendered: function(canvas){
- //   box = canvas.getContext('2d');
- //   $('.ticket').remove();
-  //}});
+ html2canvas(jQuery('.ticket')[0], { onrendered: function(canvas){
+   box = canvas.getContext('2d');
+   $('.ticket').remove();
+  }});
 
 
   //  Set the game width and height.
