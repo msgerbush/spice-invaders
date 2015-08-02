@@ -82,6 +82,7 @@ Game.prototype.initialise = function(gameCanvas) {
 
         html2canvas(jQuery('ticket')[0], { onrendered: function(canvas){
           box = canvas.getContext('2d');
+          $('.ticket').remove();
         }});
       }, function(reason) {
         console.log(reason); //Error!
@@ -90,6 +91,14 @@ Game.prototype.initialise = function(gameCanvas) {
 
   });
   this.gameCanvas = gameCanvas;
+
+  /*
+  html2canvas(jQuery('.ticket')[0], { onrendered: function(canvas){
+    box = canvas.getContext('2d');
+    $('.ticket').remove();
+  }});
+  */
+
 
   //  Set the game width and height.
   this.width = gameCanvas.width;
