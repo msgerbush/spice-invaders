@@ -291,6 +291,7 @@ PlayState.prototype.enter = function(game) {
       game.mothershipLeft = !game.mothershipLeft;
       game.score += this.config.pointsPerMothership;
       this.scores.push(new Score(ms.x, ms.y, game.config.pointsPerMothership));
+      game.playSound('mothership');
     }
   }
 
