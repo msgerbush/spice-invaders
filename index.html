@@ -9,7 +9,9 @@
      var card = new SW.Card();
      card.services("helpdesk").on('showTicket', function(ticketId){
       card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
-      //console.log(ticket.creator.first_name);
+      console.log(ticket['creator']['first_name']);
+      console.log(ticket['creator']['last_name']);
+      console.log(ticket['creator']['avatar_path']);
       console.log(ticket['description']);
       }, function(reason) {
         console.log(reason); //Error!
