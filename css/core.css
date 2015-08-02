@@ -51,16 +51,15 @@ a:focus {
 #upper{
   background-color: #e6e6e6;
   height: 30%;
-        box-shadow: inset 0 0 9px #777777;
-}
-
-#upper div{
-  background-color: transparent;
+  border-bottom: solid 2px #b6b6b6
+  
 }
 
 #lower{
   height: 15%;
   vertical-align: bottom;
+  background-color: #e6e6e6;
+  border-top: solid 2px #b6b6b6;
 }
 
 #lower div{
@@ -76,7 +75,9 @@ a:focus {
 }
 
 #description {
-  width: 285px;
+  min-width: 75%;
+  max-height: 40%;
+  padding: 2%;
   height: 70px;
   font-size: 15px;
   text-align: left;
@@ -97,6 +98,7 @@ a:focus {
   display: inline-block;
   width: 75%;
   float: right;
+  padding-right: 4%;
   text-align: right;
 }
 
