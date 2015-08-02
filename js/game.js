@@ -223,8 +223,6 @@ Game.prototype.keyUp = function(keyCode) {
 };
 
 Game.prototype.playSound = function(sound) {
-  console.log(sound);
-  console.log(this.sounds[sound]);
   var audio = new Audio(this.sounds[sound]);
   audio.play();
 }
