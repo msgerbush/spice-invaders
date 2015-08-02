@@ -7,7 +7,6 @@
     <script src="lib/html2canvas.js" type="text/javascript"></script>
     <title>Spice Invaders</title>
     <link rel="stylesheet" type="text/css" href="css/core.css">
-    <link rel="stylesheet" type="text/css" href="css/typeography.css">
     <style>
 
       /* Styling needed for a fullscreen canvas and no scrollbars. */
@@ -30,13 +29,20 @@
   </head>
   <body>
     <div class='ticket'>
-      <div id = 'icon' class = 'box'></div>
-      <div id = 'ticketID' class = 'box'></div>
-      <div id = 'author' class = 'box'></div>
-      <div id = 'summary' class = 'box'></div>
-      <div id = 'description' class = 'box'></div>
-      <div id = 'priority' class = 'box'></div>
-      <div id = 'status' class = 'box'></div>
+      <div id = 'upper'>
+        <div id = 'icon' class = 'box'><img src='img/side_pepper_40px.png'/></div>
+        <div id = 'container'>
+          <div id = 'ticketID' class = 'box'>#11</div>
+          <div id = 'author' class = 'box'>Peggy Sue</div>
+          <div id = 'summary' class = 'box'>I have a problem with life</div>
+        </div>
+      </div>
+      <div id = 'description' class = 'box'>I HAVE A PROBLEM! I HAVE A PROBLEM! I HAVE A PROBLEM! I HAVE A PROBLEM! I HAVE A PROBLEM! I HAVE A PROBLEM!</div>
+      <hr/>
+      <div id = 'lower'>
+        <div id = 'priority' class = 'box'>Low</div>
+        <div id = 'status' class = 'box'>open</div>
+      </div>
     </div>
     <div id="gamecontainer">
       <canvas id="gameCanvas"></canvas>

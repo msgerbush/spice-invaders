@@ -7,6 +7,9 @@
 /* Purpose: undo some of the default styling of common browsers        */
 
 
+body{
+  font-family: 'Open Sans', Arial;
+}
 :link,:visited,ins { text-decoration:none }
 nav ul,nav ol { list-style:none }
 dl,ul,ol,li,
@@ -25,6 +28,10 @@ a {
   text-decoration: none;
 }
 
+hr{
+  margin: 2px;
+}
+
 a:hover,
 a:focus {
   color: #005580;
@@ -34,53 +41,75 @@ a:focus {
 .ticket {
   width: 300px;
   height: 175px;
-  background-color: #c9c9c9;
-  border: solid #ff7300;
+  background-color: white;
 }
 
 .box {
-
-  background-color: white;
-  border: solid #ff7300;
   margin: 1px;
+}
 
+#upper{
+  background-color: #e6e6e6;
+  height: 30%;
+        box-shadow: inset 0 0 9px #777777;
+}
+
+#upper div{
+  background-color: transparent;
+}
+
+#lower{
+  height: 15%;
+  vertical-align: bottom;
+}
+
+#lower div{
+  background-color: transparent;
+  vertical-align: bottom;
+}
+
+#container {
+  display: inline-block;
+  float: right;
+  width: 70%;
+  max-height: 54px;
 }
 
 #description {
-
   width: 285px;
   height: 70px;
   font-size: 15px;
   text-align: left;
-
-}
-
-#ticketID {
-  width: 30px;
-  font-size: 12px;
-  margin: 2px;
   display: inline-block;
   padding: 2px;
 }
 
+#ticketID {
+  font-size: 12px;
+  margin: 2px;
+  display: inline-block;
+  padding: 2px;
+  width: 10%;
+}
+
 #author {
-  width: 175px;
-  padding: 1px;
   margin: 1px;
   display: inline-block;
+  width: 75%;
+  float: right;
+  text-align: right;
 }
 
 #icon {
   width: 55px;
-  height: 55px;
+  max-height: inherit;
   margin: 2px;
-  padding: 1px;
   text-align: center;
+  display: inline-block;
   float: left;
 }
 
 #summary {
-  width: 215px;
   padding: 2px;
   display: inline-block;
 }
