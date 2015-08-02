@@ -3,7 +3,7 @@ font_color = "#ffe401";
 function Game() {
   // Set the initial config.
   this.config = {
-    bombRate: 0.1,
+    bombRate: 0.08,
     bombMinVelocity: 300,
     bombMaxVelocity: 300,
     invaderInitialVelocity: 25,
@@ -19,8 +19,8 @@ function Game() {
     levelDifficultyMultiplier: 0.2,
     pointsPerInvader: 5,
     pointsPerMothership: 50,
-    invaderRanks: 1,
-    invaderFiles: 1,
+    invaderRanks: 6,
+    invaderFiles: 8,
     ticketWidth: 300,
     ticketHeight: 175,
     invincibleDuration: .7,

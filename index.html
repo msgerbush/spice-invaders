@@ -29,12 +29,12 @@
   <body>
     <div class='ticket'>
       <div id = 'icon' class = 'box'></div>
-      <div id = 'ticketID' class = 'box'>ID: 5</div>
+      <div id = 'ticketID' class = 'box'></div>
       <div id = 'author' class = 'box'></div>
       <div id = 'summary' class = 'box'></div>
-      <div id = 'description' class = 'box'>Here is my ticket description!</div>
-      <div id = 'priority' class = 'box'>Priority: High</div>
-      <div id = 'status' class = 'box'>Open</div>
+      <div id = 'description' class = 'box'></div>
+      <div id = 'priority' class = 'box'></div>
+      <div id = 'status' class = 'box'></div>
     </div>
         <script type="text/javascript">
    $(document).ready(function(){
@@ -42,8 +42,12 @@
      card.services("helpdesk").on('showTicket', function(ticketId){
       card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
       console.log(ticket['creator']['first_name']);
-      document.getElementById('summary').innerHTML = ticket['creator']['summary'];
-      document.getElementById('description').innerHTML = ticket['creator']['description'];
+      document.getElementById('summary').innerHTML = ticket['summary'];
+      document.getElementById('description').innerHTML = ticket['description'];
+      document.getElementById('icon').innerHTML = ticket['creator']['avatar_path'];
+      document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
+      document.getElementById('status').innerHTML = "Status: " + ticket['status'];
+      document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
       console.log(ticket['creator']['last_name']);
       document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
       console.log(ticket['creator']['avatar_path']);
