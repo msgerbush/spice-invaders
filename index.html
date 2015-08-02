@@ -8,10 +8,11 @@
    $(document).ready(function(){
      var card = new SW.Card();
      card.services("helpdesk").on('showTicket', function(ticketId){
-    ticket = card.services('helpdesk').request('ticket', ticketId);
-    console.log(ticket.author);
-    description = ticket.description;
-    })
+      card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
+      console.log(ticket.creator.first_name);
+      console.log(ticket.description);
+      });
+    });
    });
   </script>
     <title>Spice Invaders</title>
