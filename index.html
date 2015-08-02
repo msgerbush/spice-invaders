@@ -11,6 +11,8 @@
       card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
       console.log(ticket.creator.first_name);
       console.log(ticket.description);
+      }, function(reason) {
+        console.log(reason); //Error!
       });
     });
    });
