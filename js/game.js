@@ -6,8 +6,7 @@ function Game() {
     bombRate: 0.08,
     bombMinVelocity: 300,
     bombMaxVelocity: 300,
-    invaderInitialVelocity: 25,
-    invaderAcceleration: 0,
+    invaderInitialVelocity: 25, invaderAcceleration: 0,
     invaderDropDistance: 20,
     rocketVelocity: 400,
     rocketMaxFireRate: 2,
@@ -68,26 +67,26 @@ Game.prototype.initialise = function(gameCanvas) {
      card.services("helpdesk").on('showTicket', function(ticketId){
       game.ticketId = ticketId;
       card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
-      console.log(ticket['creator']['first_name']);
-      document.getElementById('summary').innerHTML = ticket['summary'];
-      document.getElementById('description').innerHTML = ticket['description'];
-      document.getElementById('icon').innerHTML = ticket['creator']['avatar_path'];
-      document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
-      document.getElementById('status').innerHTML = "Status: " + ticket['status'];
-      document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
-      console.log(ticket['creator']['last_name']);
-      document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
-      console.log(ticket['creator']['avatar_path']);
-      console.log(ticket['description']);
-      var description = ticket['description'];
+        console.log(ticket['creator']['first_name']);
+        document.getElementById('summary').innerHTML = ticket['summary'];
+        document.getElementById('description').innerHTML = ticket['description'];
+        document.getElementById('icon').innerHTML = ticket['creator']['avatar_path'];
+        document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
+        document.getElementById('status').innerHTML = "Status: " + ticket['status'];
+        document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
+        console.log(ticket['creator']['last_name']);
+        document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
+        console.log(ticket['creator']['avatar_path']);
+        console.log(ticket['description']);
+        var description = ticket['description'];
+
+        html2canvas(jQuery('ticket')[0], { onrendered: function(canvas){
+          box = canvas.getContext('2d');
+        }});
       }, function(reason) {
         console.log(reason); //Error!
       });
     });
-
-    html2canvas(jQuery('ticket')[0], { onrendered: function(canvas){
-      box = canvas.getContext('2d');
-    }});
 
   });
   this.gameCanvas = gameCanvas;
