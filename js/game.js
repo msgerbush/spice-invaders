@@ -55,7 +55,7 @@ function Game() {
   //  Input/output
   this.pressedKeys = {};
   this.gameCanvas = null;
-  this.ticket = null;
+  this.ticketId = null;
 }
 
 // constructor thingy
