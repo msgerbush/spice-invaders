@@ -14,6 +14,7 @@ function PlayState(config, level) {
   this.invaders = [];
   this.rockets = [];
   this.bombs = [];
+  this.scores = [];
 }
 
 PlayState.prototype.enter = function(game) {
@@ -57,7 +58,6 @@ PlayState.prototype.enter = function(game) {
   this.invaderCurrentVelocity = this.invaderInitialVelocity;
   this.invaderVelocity = {x: -this.invaderInitialVelocity, y:0};
   this.invaderNextVelocity = null;
-  this.mothership_interval = 10;
   this.mothership_time = 0;
 };
 
@@ -86,7 +86,8 @@ PlayState.prototype.enter = function(game) {
   }
 
   // Create a mothership
-  if(this.mothership_time > this.mothership_interval){
+  if(this.mothership_time > game.config.mothershipInterval
+      ){
     this.mothership_time = 0;
     if(!this.mothership){
       this.mothership = new Mothership(game.width, 50);
@@ -276,6 +277,15 @@ PlayState.prototype.enter = function(game) {
       this.rockets.splice(0, 1);
       this.mothership = null;
       game.score += this.config.pointsPerMothership;
+      this.scores.push(new Score(ms.x, ms.y, game.config.pointsPerMothership));
+    }
+  }
+
+  // Decrement scores
+  for(var i=0; i<this.scores.length; i++) {
+    this.scores[i].duration -= dt;
+    if(this.scores[i].duration <= 0){
+      this.scores.splice(i--, 1);
     }
   }
 
@@ -353,8 +363,6 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = '#006600';
   for(var i=0; i<this.invaders.length; i++) {
     var invader = this.invaders[i];
-    //var c = i % 10;
-    //ctx.fillStyle = '#0066' + c + c;
     ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
     //ctx.putImageData(box.getImageData(0, 0, 20, 20), bomb.x, bomb.y, 10, 10, 10, 10);
   }
@@ -370,7 +378,17 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = '#ff0000';
   for(var i=0; i<this.rockets.length; i++) {
     var rocket = this.rockets[i];
-    ctx.drawImage(spice_rocket, rocket.x, rocket.y - 2, 10, 30);
+    ctx.fillStyle = '#ff7300';
+    ctx.fillRect(rocket.x, rocket.y - rocket.width / 2, rocket.width, rocket.height);
+  }
+
+  // Draw scores
+  for(var i=0; i<this.scores.length; i++) {
+    var score = this.scores[i];
+    ctx.font="20px Orbitron";
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.fillText(score.value, score.x, score.y);
   }
 
 };

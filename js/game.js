@@ -25,7 +25,8 @@ function Game() {
     ticketHeight: 175,
     invincibleDuration: .7,
     rumbleInterval: 0.02,
-    rumbleWidth: 3
+    rumbleWidth: 3,
+    mothershipInterval: 2
   };
   
   this.config['invaderWidth'] = this.config['ticketWidth'] / this.config['invaderFiles'],
