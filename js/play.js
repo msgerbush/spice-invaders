@@ -303,6 +303,9 @@ PlayState.prototype.enter = function(game) {
     game.score += this.level * 50;
     game.level += 1;
     game.moveToState(new LevelIntroState(game.level));
+    card.request('helpdesk').on('showTicket', function(id){
+      card.request('helpdesk').request('ticket:update', id, { status: 'closed' });
+    });
   }
 };
 
@@ -369,7 +372,6 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   for(var i=0; i<this.invaders.length; i++) {
     var invader = this.invaders[i];
     var img = box.getImageData(invader.ticket_x, invader.ticket_y, game.config.invaderWidth, game.config.invaderHeight);
-    console.log(invader.x + ' ' + invader.y);
     ctx.putImageData(img, invader.x, invader.y);
   }
 

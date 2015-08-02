@@ -45,20 +45,14 @@
     </style>
   </head>
   <body>
-    <div hidden class='ticket'>
-
+    <div class='ticket'>
       <div id = 'icon' class = 'box'></div>
       <div id = 'ticketID' class = 'box'>ID: 5</div>
       <div id = 'author' class = 'box'>Author: Patrick Dunphy</div>
-
-      
       <div id = 'summary' class = 'box'>Ticket Summary</div>
-      
-      
       <div id = 'description' class = 'box'>Here is my ticket description!</div>
       <div id = 'priority' class = 'box'>Priority: High</div>
       <div id = 'status' class = 'box'>Open</div>
-      
     </div>
     <div id="gamecontainer">
       <canvas id="gameCanvas"></canvas>
@@ -79,6 +73,7 @@
 
 
       //  Setup the canvas.
+      var card = new SW.Card();
       var canvas = document.getElementById("gameCanvas");
       canvas.width = 800;
       canvas.height = 500;
