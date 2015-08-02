@@ -55,6 +55,7 @@ function Game() {
   //  Input/output
   this.pressedKeys = {};
   this.gameCanvas = null;
+  this.ticket = null;
 }
 
 // constructor thingy
@@ -64,6 +65,7 @@ Game.prototype.initialise = function(gameCanvas) {
    $(document).ready(function(){
      var card = new SW.Card();
      card.services("helpdesk").on('showTicket', function(ticketId){
+      this.ticketId = ticketId;
       card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
       console.log(ticket['creator']['first_name']);
       document.getElementById('summary').innerHTML = ticket['summary'];
