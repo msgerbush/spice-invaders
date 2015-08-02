@@ -60,28 +60,6 @@ function Game() {
 // constructor thingy
 Game.prototype.initialise = function(gameCanvas) {
   //  Set the game canvas.
-
-   $(document).ready(function(){
-     var card = new SW.Card();
-     card.services("helpdesk").on('showTicket', function(ticketId){
-      card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
-      console.log(ticket['creator']['first_name']);
-      document.getElementById('summary').innerHTML = ticket['summary'];
-      document.getElementById('description').innerHTML = ticket['description'];
-      document.getElementById('icon').innerHTML = ticket['creator']['avatar_path'];
-      document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
-      document.getElementById('status').innerHTML = "Status: " + ticket['status'];
-      document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
-      console.log(ticket['creator']['last_name']);
-      document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
-      console.log(ticket['creator']['avatar_path']);
-      console.log(ticket['description']);
-      var description = ticket['description'];
-      }, function(reason) {
-        console.log(reason); //Error!
-      });
-    });
-  });
   this.gameCanvas = gameCanvas;
 
   //  Set the game width and height.
