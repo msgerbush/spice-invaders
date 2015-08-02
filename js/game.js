@@ -70,7 +70,7 @@ Game.prototype.initialise = function(gameCanvas) {
         console.log(ticket['creator']['first_name']);
         document.getElementById('summary').innerHTML = ticket['summary'];
         document.getElementById('description').innerHTML = ticket['description'];
-        document.getElementById('icon').innerHTML = ticket['creator']['avatar_path'];
+        //document.getElementById('icon').innerHTML = ticket['creator']['avatar_path'];
         document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
         document.getElementById('status').innerHTML = "Status: " + ticket['status'];
         document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
