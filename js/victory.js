@@ -7,6 +7,7 @@ VictoryState.prototype.enter = function(game) {
   this.foundership = new Foundership(game.width - 300 / 2 - 5, 50);
   this.foundershipLeft = true;
   this.time = 0;
+  this.closed = false;
 }
 
 VictoryState.prototype.draw = function(game, dt, ctx){
@@ -40,7 +41,8 @@ VictoryState.prototype.update = function(game, dt) {
     this.foundershipLeft = !this.foundershipLeft;
   }
 
-  if(this.time > game.config.victoryTime){
+  if(!this.closed && this.time > game.config.victoryTime){
     card.services('helpdesk').request('ticket:update', game.ticketId, { status: 'closed' });
+    this.closed = true;
   }
 }
