@@ -90,7 +90,8 @@ PlayState.prototype.enter = function(game) {
       ){
     this.mothership_time = 0;
     if(!this.mothership){
-      this.mothership = new Mothership(game.width, 50);
+      var pos = game.mothershipLeft ? game.width : 0;
+      this.mothership = new Mothership(pos, 50);
     }
   }
 
@@ -140,9 +141,11 @@ PlayState.prototype.enter = function(game) {
   // Move the mothership
   if(this.mothership) {
     var ms = this.mothership;
-    ms.x -= dt * ms.velocity;
+    var dir = game.mothershipLeft ? -1 : 1;
+    ms.x += dt * ms.velocity * dir;
     //  If the rocket has gone off the screen remove it.
-    if(ms.x < 0) {
+    if(ms.x < 0 || ms.x > game.width) {
+      game.mothershipLeft = !game.mothershipLeft;
       this.mothership = null;
     }
   }
@@ -276,6 +279,7 @@ PlayState.prototype.enter = function(game) {
       //  this rocket again.
       this.rockets.splice(0, 1);
       this.mothership = null;
+      game.mothershipLeft = !game.mothershipLeft;
       game.score += this.config.pointsPerMothership;
       this.scores.push(new Score(ms.x, ms.y, game.config.pointsPerMothership));
     }
@@ -306,6 +310,7 @@ PlayState.prototype.fireRocket = function() {
   // only fire a rocket if one is not in flight
   if(this.rockets.length == 0){
     this.rockets.push(new Rocket(this.ship.x, this.ship.y - 12, this.config.rocketVelocity));
+    game.playSound('laser');
   }
 };
 

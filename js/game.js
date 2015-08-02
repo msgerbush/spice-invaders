@@ -33,7 +33,8 @@ function Game() {
   this.config['invaderHeight'] =  this.config['ticketHeight'] / this.config['invaderRanks'],
 
   this.sounds = {
-    explosion: 'sound/rex_collision.mp3'
+    explosion: 'sound/rex_collision.mp3',
+    laser: 'sound/laser_blast.wav'
   };
 
   // All state is in the variables below.
@@ -46,6 +47,7 @@ function Game() {
   this.invincibleCounter = 0;
   this.rumbleCounter = 0;
   this.rumbleOffset = 0;
+  this.mothershipLeft = true;
 
   //  The state stack.
   this.stateStack = [];
