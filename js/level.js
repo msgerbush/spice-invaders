@@ -10,7 +10,7 @@ function LevelIntroState(level) {
 }
 
 LevelIntroState.prototype.enter = function(game) {
-  game.lives = 1
+  game.lives = 3;
 }
 
 LevelIntroState.prototype.draw = function(game, dt, ctx) {

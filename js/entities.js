@@ -20,6 +20,8 @@ function Mothership(x, y) {
 function Rocket(x, y, velocity) {
   this.x = x;
   this.y = y;
+  this.width = 3;
+  this.height= 8;
   this.velocity = velocity;
 }
 

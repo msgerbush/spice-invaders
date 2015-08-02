@@ -5,6 +5,13 @@ function GameOverState() {
 
 GameOverState.prototype.draw = function(game, dt, ctx){
   ctx.drawImage(background, 0, 0, game.width, game.height);
+  ctx.font="42px Orbitron";
+  ctx.textAlign = 'center';
+  ctx.fillStyle = font_color;
+  ctx.fillText("Score", game.width / 2, game.height/4);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(game.score, game.width / 2, game.height/4 + 50);
+
   ctx.font="36px Orbitron";
   ctx.fillStyle = font_color;
   ctx.fillText("Game Over", game.width / 2, game.height/2);

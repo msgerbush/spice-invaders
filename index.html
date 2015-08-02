@@ -31,7 +31,6 @@
         height: 500px;
         margin: 0;
         padding: 0;
-        overflow: hidden;
       }
 
       /* Here's where we'll put Space Invader styles... */
@@ -43,10 +42,10 @@
     </style>
   </head>
   <body>
-    <div id='ticket' style='width: 300px; height: 175px; background-color: red'>text</div>
     <div id="gamecontainer">
       <canvas id="gameCanvas"></canvas>
     </div>
+    <div id='ticket' style='width: 300px; height: 175px; background-color: red'>text</div>
     <script src="js/game.js"></script>
     <script src="js/level.js"></script>
     <script src="js/entities.js"></script>
@@ -74,6 +73,9 @@
 
       var spice_bomb = new Image();
       spice_bomb.src = 'img/side_pepper_40px.png';
+
+      var spicerex_head = new Image();
+      spicerex_head.src = 'img/spicerex_head.png';
 
       var motherships = [new Image(), new Image(), new Image(), new Image()]
       motherships[0].src = 'img/scott_ship.png';
