@@ -31,3 +31,73 @@ a:focus {
   text-decoration: underline;
 }
 
+.ticket {
+  width: 300px;
+  height: 175px;
+  background-color: #c9c9c9;
+  border: solid #ff7300;
+}
+
+.box {
+
+  background-color: white;
+  border: solid #ff7300;
+  margin: 1px;
+
+}
+
+#description {
+
+  width: 285px;
+  height: 70px;
+  font-size: 15px;
+  text-align: left;
+
+}
+
+#ticketID {
+  width: 30px;
+  font-size: 12px;
+  margin: 2px;
+  display: inline-block;
+  padding: 2px;
+}
+
+#author {
+  width: 175px;
+  padding: 1px;
+  margin: 1px;
+  display: inline-block;
+}
+
+#icon {
+  width: 55px;
+  height: 55px;
+  margin: 2px;
+  padding: 1px;
+  text-align: center;
+  float: left;
+}
+
+#summary {
+  width: 215px;
+  padding: 2px;
+  display: inline-block;
+}
+
+#priority {
+  width: 85px;
+  display: block;
+  padding: 2px;
+  float: right;
+  
+}
+
+#status {
+  width: 75px;
+  display: block;
+  padding: 1px;
+  float: left;
+  text-align: center;
+}
+

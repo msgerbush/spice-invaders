@@ -317,8 +317,8 @@ PlayState.prototype.draw = function(game, dt, ctx) {
     var invader = this.invaders[i];
     //var c = i % 10;
     //ctx.fillStyle = '#0066' + c + c;
-    ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
-    //ctx.putImageData(box.getImageData(0, 0, 20, 20), bomb.x, bomb.y, 10, 10, 10, 10);
+    // ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
+    ctx.putImageData(box.getImageData(invader.ticket_x, invader.ticket_y, invader.width, invader.height), 0, 0, invader.x, invader.y, invader.width, invader.height);
   }
 
   //  Draw bombs.

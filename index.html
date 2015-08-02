@@ -11,9 +11,12 @@
      card.services("helpdesk").on('showTicket', function(ticketId){
       card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
       console.log(ticket['creator']['first_name']);
+      //document.getElementById('description').innerHTML = ticket['creator']['description'];
       console.log(ticket['creator']['last_name']);
+      //document.getElementById('name').innerHTML = ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
       console.log(ticket['creator']['avatar_path']);
       console.log(ticket['description']);
+      var description = ticket['description'];
       }, function(reason) {
         console.log(reason); //Error!
       });
@@ -43,7 +46,21 @@
     </style>
   </head>
   <body>
-    <div id='ticket' style='width: 300px; height: 175px; background-color: red'>text</div>
+    <div hidden class='ticket'>
+
+      <div id = 'icon' class = 'box'></div>
+      <div id = 'ticketID' class = 'box'>ID: 5</div>
+      <div id = 'author' class = 'box'>Author: Patrick Dunphy</div>
+
+      
+      <div id = 'summary' class = 'box'>Ticket Summary</div>
+      
+      
+      <div id = 'description' class = 'box'>Here is my ticket description!</div>
+      <div id = 'priority' class = 'box'>Priority: High</div>
+      <div id = 'status' class = 'box'>Open</div>
+      
+    </div>
     <div id="gamecontainer">
       <canvas id="gameCanvas"></canvas>
     </div>
