@@ -302,10 +302,12 @@ PlayState.prototype.enter = function(game) {
   if(this.invaders.length === 0) {
     game.score += this.level * 50;
     game.level += 1;
-    game.moveToState(new LevelIntroState(game.level));
+    console.log('victory');
     card.services('helpdesk').on('showTicket', function(id){
-      card.services('helpdesk').request('ticket:update', id, { status: 'closed' }).then(function(){console.log(arguments)});
+      console.log('ON SHOW');
+      card.services('helpdesk').request('ticket:update', id, { status: 'closed' }).then(function(){console.log('UPDATE').console.log(arguments)});
     });
+    game.moveToState(new LevelIntroState(game.level));
   }
 };
 

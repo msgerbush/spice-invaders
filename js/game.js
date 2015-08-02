@@ -19,8 +19,8 @@ function Game() {
     levelDifficultyMultiplier: 0.2,
     pointsPerInvader: 5,
     pointsPerMothership: 50,
-    invaderRanks: 6,
-    invaderFiles: 8,
+    invaderRanks: 1,
+    invaderFiles: 1,
     ticketWidth: 300,
     ticketHeight: 175,
     invincibleDuration: .7,
@@ -223,8 +223,6 @@ Game.prototype.keyUp = function(keyCode) {
 };
 
 Game.prototype.playSound = function(sound) {
-  console.log(sound);
-  console.log(this.sounds[sound]);
   var audio = new Audio(this.sounds[sound]);
   audio.play();
 }
