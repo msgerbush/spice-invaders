@@ -17,6 +17,7 @@ function PlayState(config, level) {
   this.scores = [];
   this.won = false;
   this.wonDelay = config.wonDelay;
+  this.fireDelay = 1;
 }
 
 PlayState.prototype.enter = function(game) {
@@ -63,7 +64,10 @@ PlayState.prototype.enter = function(game) {
   this.mothership_time = 0;
 };
 
- PlayState.prototype.update = function(game, dt) {
+PlayState.prototype.update = function(game, dt) {
+  if(this.fireDelay > 0){
+    this.fireDelay -= dt;
+  }
   if(this.won){
     this.wonDelay -= dt;
     if(this.wonDelay <= 0){
@@ -85,7 +89,7 @@ PlayState.prototype.enter = function(game) {
   if(game.pressedKeys[32]) {
     this.fireRocket();
   }
- 
+
   //  Keep the ship in bounds.
   if(this.ship.x < game.gameBounds.left) {
     this.ship.x = game.gameBounds.left;
@@ -223,14 +227,17 @@ PlayState.prototype.enter = function(game) {
   }
  
   //  Give each front rank invader a chance to drop a bomb.
-  for(var i=0; i<this.config.invaderFiles; i++) {
-    var invader = frontRankInvaders[i];
-    if(!invader) continue;
-    var chance = this.bombRate * dt;
-    if(chance > Math.random()) {
-      //  Fire!
-      this.bombs.push(new Bomb(invader.x, invader.y + invader.height / 2,
-        this.bombMinVelocity + Math.random()*(this.bombMaxVelocity - this.bombMinVelocity)));
+  if(this.fireDelay <= 0){
+    for(var i=0; i<this.config.invaderFiles; i++) {
+      var invader = frontRankInvaders[i];
+      if(!invader) continue;
+      var chance = this.bombRate * dt;
+      if(chance > Math.random()) {
+        this.fireDelay = .4;
+        //  Fire!
+        this.bombs.push(new Bomb(invader.x, invader.y + invader.height / 2,
+              this.bombMinVelocity + Math.random()*(this.bombMaxVelocity - this.bombMinVelocity)));
+      }
     }
   }
 

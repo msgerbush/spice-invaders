@@ -3,7 +3,7 @@ font_color = "#ffe401";
 function Game() {
   // Set the initial config.
   this.config = {
-    bombRate: 0.08,
+    bombRate: .3,
     bombMinVelocity: 300,
     bombMaxVelocity: 300,
     invaderInitialVelocity: 25, invaderAcceleration: 0,
