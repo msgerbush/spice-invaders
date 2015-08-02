@@ -29,8 +29,8 @@ function Game() {
     mothershipInterval: 2
   };
   
-  this.config['invaderWidth'] = this.config['ticketWidth'] / this.config['invaderFiles'],
-  this.config['invaderHeight'] =  this.config['ticketHeight'] / this.config['invaderRanks'],
+  this.config.invaderWidth = this.config.ticketWidth / this.config.invaderFiles;
+  this.config.invaderHeight =  this.config.ticketHeight / this.config.invaderRanks;
 
   this.sounds = {
     explosion: 'sound/rex_collision.mp3',

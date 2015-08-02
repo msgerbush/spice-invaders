@@ -43,15 +43,15 @@ PlayState.prototype.enter = function(game) {
   var startY = game.height / 2 - game.config['ticketHeight'] / 1.2;
   for(var rank = 0; rank < ranks; rank++){
     for(var file = 0; file < files; file++) {
-      var x = startX + file * game.config['invaderWidth'];
-      var y = startY + rank * game.config['invaderHeight'];
+      var x = startX + file * game.config.invaderWidth;
+      var y = startY + rank * game.config.invaderHeight;
       invaders.push(new Invader(x,
                                 y,
                                 rank,
                                 file,
                                 'Invader',
-                                game.config['invaderWidth'],
-                                game.config['invaderHeight']));
+                                game.config.invaderWidth,
+                                game.config.invaderHeight));
     }
   }
   this.invaders = invaders;
@@ -368,10 +368,9 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = '#006600';
   for(var i=0; i<this.invaders.length; i++) {
     var invader = this.invaders[i];
-    //var c = i % 10;
-    //ctx.fillStyle = '#0066' + c + c;
-    // ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
-    ctx.putImageData(box.getImageData(invader.ticket_x, invader.ticket_y, invader.width, invader.height), 0, 0, invader.x, invader.y, invader.width, invader.height);
+    var img = box.getImageData(invader.ticket_x, invader.ticket_y, game.config.invaderWidth, game.config.invaderHeight);
+    console.log(invader.x + ' ' + invader.y);
+    ctx.putImageData(img, invader.x, invader.y);
   }
 
   //  Draw bombs.

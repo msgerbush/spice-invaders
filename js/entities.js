@@ -34,8 +34,8 @@ function Bomb(x, y, velocity) {
 function Invader(x, y, rank, file, type, width, height) {
   this.x = x;
   this.y = y;
-  this.ticket_x = x;
-  this.ticket_y = y;
+  this.ticket_x = file * width;
+  this.ticket_y = rank * height;
   this.rank = rank;
   this.file = file;
   this.type = type;
