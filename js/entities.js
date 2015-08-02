@@ -20,6 +20,8 @@ function Mothership(x, y) {
 function Rocket(x, y, velocity) {
   this.x = x;
   this.y = y;
+  this.width = 5;
+  this.height= 20;
   this.velocity = velocity;
 }
 
@@ -39,4 +41,11 @@ function Invader(x, y, rank, file, type, width, height) {
   this.type = type;
   this.width = width;
   this.height = height;
+}
+
+function Score(x, y, value) {
+  this.x = x;
+  this.y = y;
+  this.value = value;
+  this.duration = 1;
 }

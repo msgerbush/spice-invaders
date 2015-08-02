@@ -14,9 +14,13 @@ function PlayState(config, level) {
   this.invaders = [];
   this.rockets = [];
   this.bombs = [];
+  this.scores = [];
 }
 
 PlayState.prototype.enter = function(game) {
+  game.invincibleCounter = 0;
+  game.score = 0;
+  game.rumbleOffset = 0;
   //  Create the ship.
   this.ship = new Ship(game.width / 2, game.gameBounds.bottom);
 
@@ -54,7 +58,6 @@ PlayState.prototype.enter = function(game) {
   this.invaderCurrentVelocity = this.invaderInitialVelocity;
   this.invaderVelocity = {x: -this.invaderInitialVelocity, y:0};
   this.invaderNextVelocity = null;
-  this.mothership_interval = 10;
   this.mothership_time = 0;
 };
 
@@ -83,10 +86,12 @@ PlayState.prototype.enter = function(game) {
   }
 
   // Create a mothership
-  if(this.mothership_time > this.mothership_interval){
+  if(this.mothership_time > game.config.mothershipInterval
+      ){
     this.mothership_time = 0;
     if(!this.mothership){
-      this.mothership = new Mothership(game.width, 50);
+      var pos = game.mothershipLeft ? game.width : 0;
+      this.mothership = new Mothership(pos, 50);
     }
   }
 
@@ -136,10 +141,11 @@ PlayState.prototype.enter = function(game) {
   // Move the mothership
   if(this.mothership) {
     var ms = this.mothership;
-    ms.x -= dt * ms.velocity;
+    var dir = game.mothershipLeft ? -1 : 1;
+    ms.x += dt * ms.velocity * dir;
     //  If the rocket has gone off the screen remove it.
-    console.log(ms.x);
-    if(ms.x < 0) {
+    if(ms.x < 0 || ms.x > game.width) {
+      game.mothershipLeft = !game.mothershipLeft;
       this.mothership = null;
     }
   }
@@ -220,6 +226,18 @@ PlayState.prototype.enter = function(game) {
   }
 
 
+  if(game.invincibleCounter > 0){
+    game.invincibleCounter = Math.max(0, game.invincibleCounter - dt);
+    game.rumbleCounter = game.rumbleCounter- dt;
+    if(game.rumbleCounter <= 0){
+      game.rumbleCounter = game.config.rumbleInterval;
+      game.rumbleOffset *= -1;
+    }
+  }
+  else if(game.rumbleOffset != 0){
+    game.rumbleOffset = 0;
+  }
+
 //  Check for bomb/ship collisions.
   for(var i=0; i<this.bombs.length; i++) {
     var bomb = this.bombs[i];
@@ -227,8 +245,13 @@ PlayState.prototype.enter = function(game) {
     var dist2 = (bomb.x - ship.x) * (bomb.x - ship.x) + (bomb.y - ship.y) * (bomb.y - ship.y);
     if(dist2 <= ship.r2){
       this.bombs.splice(i--, 1);
-      game.lives--;
-      game.playSound('explosion');
+      if(game.invincibleCounter == 0){
+        game.invincibleCounter = game.config.invincibleDuration;
+        game.rumbleCounter = game.config.rumbleInterval;
+        game.rumbleOffset = game.config.rumbleWidth;
+        game.lives--;
+        game.playSound('explosion');
+      }
     }
   }
 
@@ -245,8 +268,7 @@ PlayState.prototype.enter = function(game) {
     }
   }
 
-//  Check for rocket/invader collisions.
-
+//  Check for rocket/mothership collisions.
   if(this.mothership && this.rockets.length > 0){
     var rocket = this.rockets[0];
     var ms = this.mothership;
@@ -257,6 +279,17 @@ PlayState.prototype.enter = function(game) {
       //  this rocket again.
       this.rockets.splice(0, 1);
       this.mothership = null;
+      game.mothershipLeft = !game.mothershipLeft;
+      game.score += this.config.pointsPerMothership;
+      this.scores.push(new Score(ms.x, ms.y, game.config.pointsPerMothership));
+    }
+  }
+
+  // Decrement scores
+  for(var i=0; i<this.scores.length; i++) {
+    this.scores[i].duration -= dt;
+    if(this.scores[i].duration <= 0){
+      this.scores.splice(i--, 1);
     }
   }
 
@@ -277,32 +310,52 @@ PlayState.prototype.fireRocket = function() {
   // only fire a rocket if one is not in flight
   if(this.rockets.length == 0){
     this.rockets.push(new Rocket(this.ship.x, this.ship.y - 12, this.config.rocketVelocity));
+    game.playSound('laser');
   }
 };
 
 PlayState.prototype.draw = function(game, dt, ctx) {
+
   ctx.drawImage(background, 0, 0, game.width, game.height);
 
+  // Draw lives
+  ctx.font="24px Orbitron";
+  ctx.fillStyle = font_color;
+  var livesY = game.height / 2 - 80;
+  ctx.fillText("Lives", game.gameBounds.right + 85, livesY);
+
+  var livesX = game.gameBounds.right + 55;
+  var lifeHeight = 55;
+  var lifeWidth = 55;
+  livesY += lifeHeight / 2;
+  for(i = 0; i < game.lives; i++){
+    ctx.drawImage(spicerex_head, livesX, livesY + i * lifeHeight, lifeWidth, lifeHeight);
+    livesY += 10;
+  }
+
+  // Draw score
+  ctx.font="24px Orbitron";
+  ctx.fillStyle = font_color;
+  var scoreY = game.height / 2 - 80;
+  ctx.fillText("Score", game.gameBounds.left - 85, scoreY);
+  ctx.fillStyle = '#ffffff';
+  ctx.textAlign = 'center';
+  ctx.fillText(game.score, game.gameBounds.left - 85, scoreY + 30);
+
   //  Draw ship.
-  ctx.fillStyle = '#999999';
+  if(game.invincibleCounter > 0){
+    ctx.save();
+    ctx.globalAlpha=.5;
+    ctx.fillStyle = '#999999';
+  }
   var ship_idx = Math.floor(Math.random() * 4);
-  ctx.drawImage(spice_ship, this.ship.x - this.ship.width / 2, this.ship.y - this.ship.height / 2, this.ship.width, this.ship.height);
-
-
-  //ctx.arc(this.ship.x, this.ship.y, this.ship.height / 2, 0, Math.PI * 2, true);
-  //ctx.lineWidth = 3;
-
-  // line color
-  //ctx.strokeStyle = "white";
-  //ctx.stroke();
-  //ctx.fill();
+  ctx.drawImage(spice_ship, this.ship.x - this.ship.width / 2 + game.rumbleOffset, this.ship.y - this.ship.height / 2, this.ship.width, this.ship.height);
+  if(game.invincibleCounter > 0){
+    ctx.restore();
+  }
 
   //  Draw mothership.
   if(this.mothership != null){
-    //console.log(this.mothership);
-    //console.log('drawing ms');
-    //console(this.mothership.x - this.mothership.width / 2);
-    //console(this.mothership.y - this.mothership.height / 2);
     ctx.fillStyle = '#999999';
     ctx.drawImage(motherships[this.mothership.idx],
                   this.mothership.x - this.mothership.width / 2,
@@ -332,7 +385,17 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = '#ff0000';
   for(var i=0; i<this.rockets.length; i++) {
     var rocket = this.rockets[i];
-    ctx.drawImage(spice_rocket, rocket.x, rocket.y - 2, 10, 30);
+    ctx.fillStyle = '#ff7300';
+    ctx.fillRect(rocket.x, rocket.y - rocket.width / 2, rocket.width, rocket.height);
+  }
+
+  // Draw scores
+  for(var i=0; i<this.scores.length; i++) {
+    var score = this.scores[i];
+    ctx.font="20px Orbitron";
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.fillText(score.value, score.x, score.y);
   }
 
 };

@@ -3,7 +3,7 @@ font_color = "#ffe401";
 function Game() {
   // Set the initial config.
   this.config = {
-    bombRate: 0.05,
+    bombRate: 0.1,
     bombMinVelocity: 300,
     bombMaxVelocity: 300,
     invaderInitialVelocity: 25,
@@ -18,25 +18,36 @@ function Game() {
     shipSpeed: 200,
     levelDifficultyMultiplier: 0.2,
     pointsPerInvader: 5,
+    pointsPerMothership: 50,
     invaderRanks: 6,
     invaderFiles: 8,
     ticketWidth: 300,
     ticketHeight: 175,
+    invincibleDuration: .7,
+    rumbleInterval: 0.02,
+    rumbleWidth: 3,
+    mothershipInterval: 2
   };
   
   this.config['invaderWidth'] = this.config['ticketWidth'] / this.config['invaderFiles'],
   this.config['invaderHeight'] =  this.config['ticketHeight'] / this.config['invaderRanks'],
 
   this.sounds = {
-    explosion: new Audio('sound/rex_collision.mp3')
+    explosion: 'sound/rex_collision.mp3',
+    laser: 'sound/laser_blast.wav'
   };
 
   // All state is in the variables below.
-  this.lives = 1;
+  this.lives = 0;
   this.width = 0;
   this.height = 0;
   this.level = 1;
+  this.score = 0;
   this.gameBound = {left: 0, topp: 0, right: 0, bottom: 0};
+  this.invincibleCounter = 0;
+  this.rumbleCounter = 0;
+  this.rumbleOffset = 0;
+  this.mothershipLeft = true;
 
   //  The state stack.
   this.stateStack = [];
@@ -161,7 +172,6 @@ Game.prototype.start = function() {
   this.moveToState(new WelcomeState());
 
   //  Set the game variables.
-  this.lives = 1;
   this.config.debugMode = /debug=true/.test(window.location.href);
 
   //  Start the game loop.
@@ -215,5 +225,6 @@ Game.prototype.keyUp = function(keyCode) {
 Game.prototype.playSound = function(sound) {
   console.log(sound);
   console.log(this.sounds[sound]);
-  this.sounds[sound].play();
+  var audio = new Audio(this.sounds[sound]);
+  audio.play();
 }
