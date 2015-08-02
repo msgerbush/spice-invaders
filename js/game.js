@@ -236,6 +236,7 @@ WelcomeState.prototype.draw = function(game, dt, ctx) {
   ctx.font="16px Orbitron";
 
   ctx.fillText("Press 'Space' to start.", game.width / 2, game.height/2);
+  ctx.fillText("Press 'Space' to fire and use the left and right arrow keys to move.", game.width / 2, game.height/2+40);
 };
 
 WelcomeState.prototype.keyDown = function(game, keyCode) {
