@@ -61,11 +61,11 @@ function Game() {
 // constructor thingy
 Game.prototype.initialise = function(gameCanvas) {
   //  Set the game canvas.
-
+  var game = this;
    $(document).ready(function(){
      var card = new SW.Card();
      card.services("helpdesk").on('showTicket', function(ticketId){
-      this.ticketId = ticketId;
+      game.ticketId = ticketId;
       card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
       console.log(ticket['creator']['first_name']);
       document.getElementById('summary').innerHTML = ticket['summary'];
