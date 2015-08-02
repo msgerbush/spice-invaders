@@ -304,7 +304,7 @@ PlayState.prototype.enter = function(game) {
     game.level += 1;
     game.moveToState(new LevelIntroState(game.level));
     card.services('helpdesk').on('showTicket', function(id){
-      card.services('helpdesk').request('ticket:update', id, { status: 'closed' });
+      card.services('helpdesk').request('ticket:update', id, { status: 'closed' }).then(function(){console.log(arguments)});
     });
   }
 };
