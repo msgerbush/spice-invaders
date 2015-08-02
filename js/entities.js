@@ -5,6 +5,16 @@ function Ship(x, y) {
   this.height = 64;
 }
 
+function Mothership(x, y) {
+  this.x = x;
+  this.y = y;
+  this.width = 80;
+  this.height = 64;
+  this.idx = mothership_index
+  this.velocity = 120;
+  mothership_index = (mothership_index + 1) % 4
+}
+
 function Rocket(x, y, velocity) {
   this.x = x;
   this.y = y;

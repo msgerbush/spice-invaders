@@ -10,6 +10,7 @@ function PlayState(config, level) {
 
   //  Game entities.
   this.ship = null;
+  this.mothership = null;
   this.invaders = [];
   this.rockets = [];
   this.bombs = [];
@@ -35,7 +36,7 @@ PlayState.prototype.enter = function(game) {
     for(var file = 0; file < files; file++) {
       invaders.push(new Invader(
         (game.width / 2) + ((files/2 - file) * 200 / files),
-        (game.gameBounds.top + rank * 20),
+        (game.gameBounds.topp + rank * 20),
         rank, file, 'Invader'));
     }
   }
@@ -43,10 +44,12 @@ PlayState.prototype.enter = function(game) {
   this.invaderCurrentVelocity = this.invaderInitialVelocity;
   this.invaderVelocity = {x: -this.invaderInitialVelocity, y:0};
   this.invaderNextVelocity = null;
+  this.mothership_interval = 10;
+  this.mothership_time = 0;
 };
 
  PlayState.prototype.update = function(game, dt) {
-  
+  this.mothership_time += dt;
   //  If the left or right arrow keys are pressed, move
   //  the ship. Check this on ticks rather than via a keydown
   //  event for smooth movement, otherwise the ship would move
@@ -67,6 +70,14 @@ PlayState.prototype.enter = function(game) {
   }
   if(this.ship.x > game.gameBounds.right) {
     this.ship.x = game.gameBounds.right;
+  }
+
+  // Create a mothership
+  if(this.mothership_time > this.mothership_interval){
+    this.mothership_time = 0;
+    if(!this.mothership){
+      this.mothership = new Mothership(game.width, 50);
+    }
   }
 
 //  Move each bomb.
@@ -111,7 +122,18 @@ PlayState.prototype.enter = function(game) {
       invader.y = newy;
     }
   }
- 
+
+  // Move the mothership
+  if(this.mothership) {
+    var ms = this.mothership;
+    ms.x -= dt * ms.velocity;
+    //  If the rocket has gone off the screen remove it.
+    console.log(ms.x);
+    if(ms.x < 0) {
+      this.mothership = null;
+    }
+  }
+
   //  Update invader velocities.
   if(this.invadersAreDropping) {
     this.invaderCurrentDropDistance += this.invaderVelocity.y * dt;
@@ -195,6 +217,7 @@ PlayState.prototype.enter = function(game) {
         bomb.y >= (this.ship.y - this.ship.height/2) && bomb.y <= (this.ship.y + this.ship.height/2)) {
       this.bombs.splice(i--, 1);
       game.lives--;
+      game.playSound('explosion');
     }
   }
 
@@ -207,7 +230,7 @@ PlayState.prototype.enter = function(game) {
       (invader.y - invader.height/2) < (this.ship.y + this.ship.height/2)) {
       //  Dead by collision!
       game.lives = 0;
-      //game.sounds.playSound('explosion');
+      game.playSound('explosion');
     }
   }
 //  Check for failure
@@ -235,7 +258,22 @@ PlayState.prototype.draw = function(game, dt, ctx) {
 
   //  Draw ship.
   ctx.fillStyle = '#999999';
-  ctx.drawImage(scott_ship, this.ship.x - this.ship.width / 2, this.ship.y - this.ship.height / 2, this.ship.width, this.ship.height);
+  var ship_idx = Math.floor(Math.random() * 4);
+  ctx.drawImage(motherships[ship_idx], this.ship.x - this.ship.width / 2, this.ship.y - this.ship.height / 2, this.ship.width, this.ship.height);
+
+  //  Draw mothership.
+  if(this.mothership != null){
+    //console.log(this.mothership);
+    //console.log('drawing ms');
+    //console(this.mothership.x - this.mothership.width / 2);
+    //console(this.mothership.y - this.mothership.height / 2);
+    ctx.fillStyle = '#999999';
+    ctx.drawImage(motherships[this.mothership.idx],
+                  this.mothership.x - this.mothership.width / 2,
+                  this.mothership.y - this.mothership.height / 2,
+                  this.mothership.width,
+                  this.mothership.height);
+  }
 
   //  Draw invaders.
   ctx.fillStyle = '#006600';
