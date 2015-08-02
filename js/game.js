@@ -15,12 +15,17 @@ function Game() {
     gameHeight: 300,
     fps: 50,
     debugMode: false,
-    invaderRanks: 5,
-    invaderFiles: 10,
     shipSpeed: 200,
     levelDifficultyMultiplier: 0.2,
-    pointsPerInvader: 5
+    pointsPerInvader: 5,
+    invaderRanks: 5,
+    invaderFiles: 10,
+    ticketWidth: 250,
+    ticketHeight: 175,
   };
+  
+  this.config['invaderWidth'] = this.config['ticketWidth'] / this.config['invaderFiles'],
+  this.config['invaderHeight'] =  this.config['ticketHeight'] / this.config['invaderRanks'],
 
   this.sounds = {
     explosion: new Audio('sound/rex_collision.mp3')

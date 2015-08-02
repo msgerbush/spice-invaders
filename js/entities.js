@@ -2,7 +2,7 @@ function Ship(x, y) {
   this.x = x;
   this.y = y;
   this.width = 80;
-  this.height = 64;
+  this.height = 80;
   this.r2 = this.height * this.height / 4;
 }
 
@@ -29,12 +29,14 @@ function Bomb(x, y, velocity) {
   this.velocity = velocity;
 }
 
-function Invader(x, y, rank, file, type) {
+function Invader(x, y, rank, file, type, width, height) {
   this.x = x;
   this.y = y;
+  this.ticket_x = x;
+  this.ticket_y = y;
   this.rank = rank;
   this.file = file;
   this.type = type;
-  this.width = 18;
-  this.height = 14;
+  this.width = width;
+  this.height = height;
 }

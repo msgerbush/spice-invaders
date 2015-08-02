@@ -28,16 +28,26 @@ PlayState.prototype.enter = function(game) {
   this.bombMinVelocity = this.config.bombMinVelocity + (levelMultiplier * this.config.bombMinVelocity);
   this.bombMaxVelocity = this.config.bombMaxVelocity + (levelMultiplier * this.config.bombMaxVelocity);
 
+        //(game.width / 2) + ((files/2 - file) * 200 / files),
+        //(game.gameBounds.topp + rank * 20),
+
   //  Create the invaders.
   var ranks = this.config.invaderRanks;
   var files = this.config.invaderFiles;
   var invaders = [];
+  var startX = game.width / 2 - game.config['ticketWidth'] / 1.5;
+  var startY = game.height / 2 - game.config['ticketHeight'] / 1.5;
   for(var rank = 0; rank < ranks; rank++){
     for(var file = 0; file < files; file++) {
-      invaders.push(new Invader(
-        (game.width / 2) + ((files/2 - file) * 200 / files),
-        (game.gameBounds.topp + rank * 20),
-        rank, file, 'Invader'));
+      var x = startX + file * game.config['invaderWidth'];
+      var y = startY + rank * game.config['invaderHeight'];
+      invaders.push(new Invader(x,
+                                y,
+                                rank,
+                                file,
+                                'Invader',
+                                game.config['invaderWidth'],
+                                game.config['invaderHeight']));
     }
   }
   this.invaders = invaders;
@@ -276,7 +286,7 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   //  Draw ship.
   ctx.fillStyle = '#999999';
   var ship_idx = Math.floor(Math.random() * 4);
-  ctx.drawImage(motherships[ship_idx], this.ship.x - this.ship.width / 2, this.ship.y - this.ship.height / 2, this.ship.width, this.ship.height);
+  ctx.drawImage(spice_ship, this.ship.x - this.ship.width / 2, this.ship.y - this.ship.height / 2, this.ship.width, this.ship.height);
 
 
   //ctx.arc(this.ship.x, this.ship.y, this.ship.height / 2, 0, Math.PI * 2, true);
@@ -305,7 +315,10 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = '#006600';
   for(var i=0; i<this.invaders.length; i++) {
     var invader = this.invaders[i];
+    //var c = i % 10;
+    //ctx.fillStyle = '#0066' + c + c;
     ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
+    //ctx.putImageData(box.getImageData(0, 0, 20, 20), bomb.x, bomb.y, 10, 10, 10, 10);
   }
 
   //  Draw bombs.
