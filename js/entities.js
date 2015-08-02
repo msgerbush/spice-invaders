@@ -49,3 +49,11 @@ function Score(x, y, value) {
   this.value = value;
   this.duration = 1;
 }
+
+function Foundership(x, y) {
+  this.x = x;
+  this.y = y;
+  this.width = 300;
+  this.height = 160;
+  this.velocity = 120;
+}

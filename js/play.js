@@ -15,6 +15,8 @@ function PlayState(config, level) {
   this.rockets = [];
   this.bombs = [];
   this.scores = [];
+  this.won = false;
+  this.wonDelay = config.wonDelay;
 }
 
 PlayState.prototype.enter = function(game) {
@@ -62,6 +64,13 @@ PlayState.prototype.enter = function(game) {
 };
 
  PlayState.prototype.update = function(game, dt) {
+  if(this.won){
+    this.wonDelay -= dt;
+    if(this.wonDelay <= 0){
+      game.moveToState(new VictoryState());
+    }
+    return;
+  }
   this.mothership_time += dt;
   //  If the left or right arrow keys are pressed, move
   //  the ship. Check this on ticks rather than via a keydown
@@ -302,8 +311,8 @@ PlayState.prototype.enter = function(game) {
   if(this.invaders.length === 0) {
     game.score += this.level * 50;
     game.level += 1;
-    card.services('helpdesk').request('ticket:update', game.ticketId, { status: 'closed' });
-    game.moveToState(new LevelIntroState(game.level));
+    this.won = true;
+    game.playSound('ticketBoom');
   }
 };
 

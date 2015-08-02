@@ -18,14 +18,16 @@ function Game() {
     levelDifficultyMultiplier: 0.2,
     pointsPerInvader: 5,
     pointsPerMothership: 50,
-    invaderRanks: 6,
-    invaderFiles: 8,
+    invaderRanks: 2,
+    invaderFiles: 2,
     ticketWidth: 300,
     ticketHeight: 175,
     invincibleDuration: .7,
     rumbleInterval: 0.02,
     rumbleWidth: 3,
-    mothershipInterval: 2
+    mothershipInterval: 2,
+    wonDelay: 2.5,
+    victoryTime: 5
   };
   
   this.config.invaderWidth = this.config.ticketWidth / this.config.invaderFiles;
@@ -33,7 +35,8 @@ function Game() {
 
   this.sounds = {
     explosion: 'sound/rex_collision.mp3',
-    laser: 'sound/laser_blast.wav'
+    laser: 'sound/laser_blast.wav',
+    ticketBoom: 'sound/ship_explosion.wav'
   };
 
   // All state is in the variables below.

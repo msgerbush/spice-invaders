@@ -66,6 +66,7 @@
     <script src="js/entities.js"></script>
     <script src="js/play.js"></script>
     <script src="js/gameover.js"></script>
+    <script src="js/victory.js"></script>
     <script>
 
       //  Setup the canvas.
@@ -91,6 +92,9 @@
       motherships[1].src = 'img/jay_ship.png';
       motherships[2].src = 'img/greg_ship.png';
       motherships[3].src = 'img/francis_ship.png';
+
+      var foundership_img = new Image();
+      foundership_img.src = 'img/carpooling.png';
 
       var mothership_index = Math.floor(Math.random() * 4);
 
