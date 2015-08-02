@@ -302,8 +302,7 @@ PlayState.prototype.enter = function(game) {
   if(this.invaders.length === 0) {
     game.score += this.level * 50;
     game.level += 1;
-    console.log('victory');
-    card.services('helpdesk').request('ticket:update', game.ticketId, { status: 'closed' }).then(function(){console.log('UPDATE').console.log(arguments)});
+    card.services('helpdesk').request('ticket:update', game.ticketId, { status: 'closed' });
     game.moveToState(new LevelIntroState(game.level));
   }
 };
@@ -366,23 +365,6 @@ PlayState.prototype.draw = function(game, dt, ctx) {
                   this.mothership.height);
   }
 
-    var card = new SW.Card();
-     card.services("helpdesk").on('showTicket', function(ticketId){
-      card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
-      document.getElementById('summary').innerHTML = ticket['summary'];
-      document.getElementById('description').innerHTML = ticket['description'];
-      document.getElementById('icon').innerHTML = ticket['creator']['avatar_path'];
-      document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
-      document.getElementById('status').innerHTML = "Status: " + ticket['status'];
-      document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
-      console.log(ticket['creator']['last_name']);
-      document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
-      var description = ticket['description'];
-      }, function(reason) {
-        console.log(reason); //Error!
-      });
-    });
-  
   //  Draw invaders.
   ctx.fillStyle = '#006600';
   for(var i=0; i<this.invaders.length; i++) {

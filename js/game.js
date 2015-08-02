@@ -48,6 +48,7 @@ function Game() {
   this.rumbleCounter = 0;
   this.rumbleOffset = 0;
   this.mothershipLeft = true;
+  this.ticketId = null;
 
   //  The state stack.
   this.stateStack = [];
@@ -55,7 +56,6 @@ function Game() {
   //  Input/output
   this.pressedKeys = {};
   this.gameCanvas = null;
-  this.ticketId = null;
 }
 
 // constructor thingy
