@@ -129,8 +129,17 @@ PlayState.prototype.update = function(game, dt) {
       this.rockets.splice(i--, 1);
     }
   }
+  // if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length){
+    // console.log(this.invaders.length);
+    // if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length)
+    // {
+    //   this.config.invaderAcceleration = (this.config.initialNumOfInvaders - this.invaders.length);
+    //   this.invaderCurrentVelocity += this.config.invaderAcceleration;
+    //   console.log(this.invaderCurrentVelocity);
+    //   console.log(this.config.invaderAcceleration);
+    // }
  //  Move the invaders.
-  var hitLeft = false, hitRight = false, hitBottom = false;
+  var hitLeft = false, hitRight = false, hitBottom = false, lessInvaders = false;
   for(i=0; i<this.invaders.length; i++) {
     var invader = this.invaders[i];
     var newx = invader.x + this.invaderVelocity.x * dt;
@@ -144,8 +153,15 @@ PlayState.prototype.update = function(game, dt) {
     else if(hitBottom === false && newy > game.gameBounds.bottom) {
       hitBottom = true;
     }
+    else if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length){
+      // if(this.config.invaderAcceleration - (this.config.initialNumOfInvaders - this.invaders.length) < 2){
+        console.log("increase speed");
+        lessInvaders = true;
+      // }
+      
+    }
  
-    if(!hitLeft && !hitRight && !hitBottom) {
+    if(!hitLeft && !hitRight && !hitBottom ) {
       invader.x = newx;
       invader.y = newy;
     }
@@ -190,6 +206,19 @@ PlayState.prototype.update = function(game, dt) {
   if(hitBottom) {
     this.lives = 0;
   }
+  if(lessInvaders && !hitLeft && !hitRight && !hitBottom)
+  {
+    // this.config.invaderAcceleration = (this.config.initialNumOfInvaders - this.invaders.length);
+    this.invaderCurrentVelocity += this.config.invaderAcceleration;
+    if(this.invaderVelocity.x > 0){
+      this.invaderVelocity = {x: this.invaderCurrentVelocity, y:0};
+    }
+    else
+    {
+      this.invaderVelocity = {x: -this.invaderCurrentVelocity, y:0};
+    }
+    
+  }
 
 //  Check for rocket/invader collisions.
   for(i=0; i<this.invaders.length; i++) {
@@ -211,9 +240,13 @@ PlayState.prototype.update = function(game, dt) {
       }
     }
     if(bang) {
+      //remove invader and adjust acceleration
       this.invaders.splice(i--, 1);
     }
   }
+//Increase acceleration of invaders
+// this.config.invaderAcceleration += this.config.invaderAcceleration + (this.config.initialNumOfInvaders - this.invaders.length);
+
 //  Find all of the front rank invaders.
   var frontRankInvaders = {};
   for(var i=0; i<this.invaders.length; i++) {

@@ -3,10 +3,10 @@ font_color = "#ffe401";
 function Game() {
   // Set the initial config.
   this.config = {
-    bombRate: .2,
+    bombRate: .175,
     bombMinVelocity: 300,
     bombMaxVelocity: 300,
-    invaderInitialVelocity: 25, invaderAcceleration: 0,
+    invaderInitialVelocity: 1, invaderAcceleration: .2,
     invaderDropDistance: 20,
     rocketVelocity: 400,
     rocketMaxFireRate: 2,
@@ -32,6 +32,7 @@ function Game() {
 
   this.config.invaderWidth = this.config.ticketWidth / this.config.invaderFiles;
   this.config.invaderHeight =  this.config.ticketHeight / this.config.invaderRanks;
+  this.config.initialNumOfInvaders = this.config.invaderRanks * this.config.invaderFiles;
 
   this.sounds = {
     explosion: 'sound/rex_collision.mp3',
