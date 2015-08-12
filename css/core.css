@@ -54,7 +54,7 @@ a:focus {
   margin: 1px;
 }
 
-#upper{
+.upper{
   background-color: #e6e6e6;
   height: 30%;
   border-bottom: solid 2px #b6b6b6;
@@ -62,26 +62,26 @@ a:focus {
   
 }
 
-#lower{
+.lower{
   height: 41px;
   vertical-align: bottom;
   background-color: #e6e6e6;
   border-top: solid 2px #b6b6b6;
 }
 
-#lower div{
+.lower div{
   background-color: transparent;
   vertical-align: bottom;
 }
 
-#container {
+.container {
   display: inline-block;
   float: right;
   width: 70%;
   max-height: 54px;
 }
 
-#description {
+.description {
   min-width: 75%;
   max-height: 40%;
   padding: 2%;
@@ -92,7 +92,7 @@ a:focus {
   padding: 2px;
 }
 
-#ticketID {
+.ticketID {
   
   margin: 2px;
   display: inline-block;
@@ -100,7 +100,7 @@ a:focus {
   width: 16%;
 }
 
-#author {
+.author {
   margin: 1px;
   display: inline-block;
   width: 75%;
@@ -109,7 +109,7 @@ a:focus {
   text-align: right;
 }
 
-#icon {
+.icon {
   width: 55px;
   max-height: inherit;
   margin: 2px;
@@ -118,14 +118,14 @@ a:focus {
   float: left;
 }
 
-#summary {
+.summary {
   padding-top: 4px;
   margin:1px;
   display: inline-block;
   font-size: 14px;
 }
 
-#priority {
+.priority {
   width: 85px;
   display: block;
   padding: 2px;
@@ -133,7 +133,7 @@ a:focus {
   
 }
 
-#status {
+.status {
   width: 75px;
   display: block;
   padding: 1px;
