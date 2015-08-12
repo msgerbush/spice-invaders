@@ -72,6 +72,7 @@ Game.prototype.initialise = function(gameCanvas) {
   if(self == top){
     $('.ticket').remove();
     html2canvas($('.mock_ticket')[0], { onrendered: function(canvas){
+      console.log('HI');
       box = canvas.getContext('2d');
       $('.mock_ticket').remove();
     }});
