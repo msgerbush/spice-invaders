@@ -19,6 +19,15 @@ function PlayState(config, level) {
   this.wonDelay = config.wonDelay;
   this.fireDelay = 1;
   this.direction = -1;
+  this.invadersKilled = 0;
+}
+
+function accel(x, a) {
+  var f = function(x, a){
+    var d = 6;
+    return a * (x * x) / (d * d);
+  }
+  return f(x, a) - f(x - 1, a);
 }
 
 PlayState.prototype.enter = function(game) {
@@ -216,7 +225,8 @@ PlayState.prototype.update = function(game, dt) {
     }
     if(bang) {
       this.invaders.splice(i--, 1);
-      this.invaderCurrentVelocity += game.config.invaderAcceleration;
+      this.invadersKilled++;
+      this.invaderCurrentVelocity += accel(this.invadersKilled, game.config.invaderAcceleration);//game.config.invaderAcceleration;
     }
   }
 
