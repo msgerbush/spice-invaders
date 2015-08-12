@@ -6,7 +6,7 @@ function Game() {
     bombRate: .175,
     bombMinVelocity: 300,
     bombMaxVelocity: 300,
-    invaderInitialVelocity: 50, invaderAcceleration: 6,
+    invaderInitialVelocity: 40, invaderAcceleration: 6,
     invaderDropDistance: 15,
     rocketVelocity: 400,
     rocketMaxFireRate: 2,
@@ -69,63 +69,37 @@ Game.prototype.initialise = function(gameCanvas) {
   var game = this;
   this.gameCanvas = gameCanvas;
 
-
   if(self == top) {
     $(document).ready(function() {
       $('.ticket').remove();
       html2canvas($('.mock_ticket')[0], { onrendered: function(canvas) {
         box = canvas.getContext('2d');
         $('.mock_ticket').remove();
-        console.log('top');
-        game.start();
       }});
     });
   }
-  else {
+  else{
+    $('.mock_ticket').remove();
     $(document).ready(function() {
       var card = new SW.Card();
-      card.services("environment").request("environment").then(function(environment) {
-        if(environment['app_host']['placement']['name'] == 'ticket') {
-          card.services("helpdesk").on('showTicket', function(ticketId) {
-            game.ticketId = ticketId;
-            card.services('helpdesk').request('ticket', ticketId).then(function(ticket) {
-              document.getElementById('summary').innerHTML = ticket['summary'];
-              document.getElementById('description').innerHTML = ticket['description'];
-              document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
-              document.getElementById('status').innerHTML = "Status: " + ticket['status'];
-              document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
-              document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
-              var description = ticket['description'];
+      card.services("helpdesk").on('showTicket', function(ticketId) {
+        game.ticketId = ticketId;
+        card.services('helpdesk').request('ticket', ticketId).then(function(ticket) {
+          document.getElementById('summary').innerHTML = ticket['summary'];
+          document.getElementById('description').innerHTML = ticket['description'];
+          document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
+          document.getElementById('status').innerHTML = "Status: " + ticket['status'];
+          document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
+          document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
+          var description = ticket['description'];
 
-              html2canvas($('ticket')[0], { onrendered: function(canvas) {
-                $('.mock_ticket').remove();
-                box = canvas.getContext('2d');
-                $('.ticket').remove();
-                console.log('ticket data');
-                game.start();
-              }});
-            }, function() {
-              console.log('FAIL');
-            });
-          });
-        }
-        else {
-          $('.ticket').remove();
-          html2canvas($('.mock_ticket')[0], { onrendered: function(canvas) {
+          html2canvas($('ticket')[0], { onrendered: function(canvas) {
             box = canvas.getContext('2d');
-            $('.mock_ticket').remove();
-            console.log('mock');
-            game.start();
+            $('.ticket').remove();
           }});
-        }
-      }, function(){
-        $('.ticket').remove();
-        html2canvas($('.mock_ticket')[0], { onrendered: function(canvas) {
-          box = canvas.getContext('2d');
-          $('.mock_ticket').remove();
-          console.log('rejected ):');
-          game.start();
-        }});
+        }, function() {
+          console.log('FAIL');
+        });
       });
 
     });
