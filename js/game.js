@@ -6,7 +6,7 @@ function Game() {
     bombRate: .175,
     bombMinVelocity: 300,
     bombMaxVelocity: 300,
-    invaderInitialVelocity: 1, invaderAcceleration: .2,
+    invaderInitialVelocity: 20, invaderAcceleration: 6,
     invaderDropDistance: 20,
     rocketVelocity: 400,
     rocketMaxFireRate: 2,

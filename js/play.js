@@ -4,7 +4,7 @@ function PlayState(config, level) {
   this.level = level;
 
   //  Game state
-  this.invaderCurrentVelocity =  10;
+  this.invaderCurrentVelocity = config.invaderInitialVelocity;
   this.invaderCurrentDropDistance =  0;
   this.invadersAreDropping =  false;
 
@@ -18,6 +18,7 @@ function PlayState(config, level) {
   this.won = false;
   this.wonDelay = config.wonDelay;
   this.fireDelay = 1;
+  this.direction = -1;
 }
 
 PlayState.prototype.enter = function(game) {
@@ -129,39 +130,6 @@ PlayState.prototype.update = function(game, dt) {
       this.rockets.splice(i--, 1);
     }
   }
-  // if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length) {
-    // console.log(this.invaders.length);
-    // if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length)
-    // {
-    //   this.config.invaderAcceleration = (this.config.initialNumOfInvaders - this.invaders.length);
-    //   this.invaderCurrentVelocity += this.config.invaderAcceleration;
-    //   console.log(this.invaderCurrentVelocity);
-    //   console.log(this.config.invaderAcceleration);
-    // }
- //  Move the invaders.
-  var hitLeft = false, hitRight = false, hitBottom = false, lessInvaders = false;
-  for(i=0; i<this.invaders.length; i++) {
-    var invader = this.invaders[i];
-    var newx = invader.x + this.invaderVelocity.x * dt;
-    var newy = invader.y + this.invaderVelocity.y * dt;
-    if(hitLeft === false && newx < game.gameBounds.left) {
-      hitLeft = true;
-    }
-    else if(hitRight === false && newx > game.gameBounds.right) {
-      hitRight = true;
-    }
-    else if(hitBottom === false && newy > game.gameBounds.bottom) {
-      hitBottom = true;
-    }
-    else if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length) {
-      lessInvaders = true;
-    }
-
-    if(!hitLeft && !hitRight && !hitBottom ) {
-      invader.x = newx;
-      invader.y = newy;
-    }
-  }
 
   // Move the mothership
   if(this.mothership) {
@@ -172,6 +140,30 @@ PlayState.prototype.update = function(game, dt) {
     if(ms.x < 0 || ms.x > game.width) {
       game.mothershipLeft = !game.mothershipLeft;
       this.mothership = null;
+    }
+  }
+
+  // Move the invaders.
+  var hitLeft = false, hitRight = false, hitBottom = false;
+  for(i=0; i<this.invaders.length; i++) {
+    var invader = this.invaders[i];
+    var newx = invader.x + this.direction * this.invaderCurrentVelocity * dt;//this.invaderVelocity.x * dt;
+    var newy = invader.y + this.invaderCurrentVelocity * dt;//this.invaderVelocity.y * dt;
+    if(hitLeft === false && newx < game.gameBounds.left && this.direction < 0) {
+      hitLeft = true;
+    }
+    else if(hitRight === false && newx > game.gameBounds.right && this.direction > 0) {
+      hitRight = true;
+    }
+    else if(hitBottom === false && newy > game.gameBounds.bottom) {
+      hitBottom = true;
+    }
+
+    if(this.invadersAreDropping) {
+      invader.y = newy;
+    }
+    else {
+      invader.x = newx;
     }
   }
 
@@ -186,34 +178,21 @@ PlayState.prototype.update = function(game, dt) {
   }
   //  If we've hit the left, move down then right.
   if(hitLeft) {
-    this.invaderCurrentVelocity += this.config.invaderAcceleration;
     this.invaderVelocity = {x: 0, y:this.invaderCurrentVelocity };
     this.invadersAreDropping = true;
     this.invaderNextVelocity = {x: this.invaderCurrentVelocity , y:0};
+    this.direction = 1;
   }
   //  If we've hit the right, move down then left.
   if(hitRight) {
-    this.invaderCurrentVelocity += this.config.invaderAcceleration;
     this.invaderVelocity = {x: 0, y:this.invaderCurrentVelocity };
     this.invadersAreDropping = true;
     this.invaderNextVelocity = {x: -this.invaderCurrentVelocity , y:0};
+    this.direction = -1;
   }
   //  If we've hit the bottom, it's game over.
   if(hitBottom) {
     this.lives = 0;
-  }
-  if(lessInvaders && !hitLeft && !hitRight && !hitBottom)
-  {
-    // this.config.invaderAcceleration = (this.config.initialNumOfInvaders - this.invaders.length);
-    this.invaderCurrentVelocity += this.config.invaderAcceleration;
-    if(this.invaderVelocity.x > 0) {
-      this.invaderVelocity = {x: this.invaderCurrentVelocity, y:0};
-    }
-    else
-    {
-      this.invaderVelocity = {x: -this.invaderCurrentVelocity, y:0};
-    }
-    
   }
 
 //  Check for rocket/invader collisions.
@@ -236,12 +215,10 @@ PlayState.prototype.update = function(game, dt) {
       }
     }
     if(bang) {
-      //remove invader and adjust acceleration
       this.invaders.splice(i--, 1);
+      this.invaderCurrentVelocity += game.config.invaderAcceleration;
     }
   }
-//Increase acceleration of invaders
-// this.config.invaderAcceleration += this.config.invaderAcceleration + (this.config.initialNumOfInvaders - this.invaders.length);
 
 //  Find all of the front rank invaders.
   var frontRankInvaders = {};
