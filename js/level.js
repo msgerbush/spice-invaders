@@ -20,9 +20,7 @@ LevelIntroState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = font_color;
   ctx.textBaseline="middle";
   ctx.textAlign="center";
-  ctx.fillText("Level " + this.level, game.width / 2, game.height/2);
-  ctx.font="24px Orbitron";
-  ctx.fillText("Ready in " + this.countdownMessage, game.width / 2, game.height/2 + 36);
+  ctx.fillText("Ready in " + this.countdownMessage, game.width / 2, game.height/2);
 };
 
 LevelIntroState.prototype.update = function(game, dt) {
