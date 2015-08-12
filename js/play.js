@@ -154,13 +154,9 @@ PlayState.prototype.update = function(game, dt) {
       hitBottom = true;
     }
     else if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length){
-      // if(this.config.invaderAcceleration - (this.config.initialNumOfInvaders - this.invaders.length) < 2){
-        console.log("increase speed");
-        lessInvaders = true;
-      // }
-      
+      lessInvaders = true;
     }
- 
+
     if(!hitLeft && !hitRight && !hitBottom ) {
       invader.x = newx;
       invader.y = newy;
