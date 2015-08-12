@@ -79,7 +79,7 @@ Game.prototype.initialise = function(gameCanvas) {
         box = canvas.getContext('2d');
         $('.mock_ticket').remove();
       }});
-    }
+    });
   }
   else{
     $('.mock_ticket').remove();
