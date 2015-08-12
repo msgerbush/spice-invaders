@@ -44,7 +44,7 @@ PlayState.prototype.enter = function(game) {
   var invaders = [];
   var startX = game.width / 2 - game.config['ticketWidth'] / 1.2;
   var startY = game.height / 2 - game.config['ticketHeight'] / 1.2;
-  for(var rank = 0; rank < ranks; rank++){
+  for(var rank = 0; rank < ranks; rank++) {
     for(var file = 0; file < files; file++) {
       var x = startX + file * game.config.invaderWidth;
       var y = startY + rank * game.config.invaderHeight;
@@ -65,12 +65,12 @@ PlayState.prototype.enter = function(game) {
 };
 
 PlayState.prototype.update = function(game, dt) {
-  if(this.fireDelay > 0){
+  if(this.fireDelay > 0) {
     this.fireDelay -= dt;
   }
-  if(this.won){
+  if(this.won) {
     this.wonDelay -= dt;
-    if(this.wonDelay <= 0){
+    if(this.wonDelay <= 0) {
       game.moveToState(new VictoryState());
     }
     return;
@@ -100,9 +100,9 @@ PlayState.prototype.update = function(game, dt) {
 
   // Create a mothership
   if(this.mothership_time > game.config.mothershipInterval
-      ){
+      ) {
     this.mothership_time = 0;
-    if(!this.mothership){
+    if(!this.mothership) {
       var pos = game.mothershipLeft ? game.width : 0;
       this.mothership = new Mothership(pos, 50);
     }
@@ -129,7 +129,7 @@ PlayState.prototype.update = function(game, dt) {
       this.rockets.splice(i--, 1);
     }
   }
-  // if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length){
+  // if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length) {
     // console.log(this.invaders.length);
     // if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length)
     // {
@@ -153,7 +153,7 @@ PlayState.prototype.update = function(game, dt) {
     else if(hitBottom === false && newy > game.gameBounds.bottom) {
       hitBottom = true;
     }
-    else if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length){
+    else if(this.config.invaderAcceleration != this.config.initialNumOfInvaders - this.invaders.length) {
       lessInvaders = true;
     }
 
@@ -206,7 +206,7 @@ PlayState.prototype.update = function(game, dt) {
   {
     // this.config.invaderAcceleration = (this.config.initialNumOfInvaders - this.invaders.length);
     this.invaderCurrentVelocity += this.config.invaderAcceleration;
-    if(this.invaderVelocity.x > 0){
+    if(this.invaderVelocity.x > 0) {
       this.invaderVelocity = {x: this.invaderCurrentVelocity, y:0};
     }
     else
@@ -221,7 +221,7 @@ PlayState.prototype.update = function(game, dt) {
     var invader = this.invaders[i];
     var bang = false;
 
-    for(var j=0; j<this.rockets.length; j++){
+    for(var j=0; j<this.rockets.length; j++) {
       var rocket = this.rockets[j];
 
       if(rocket.x >= (invader.x) && rocket.x <= (invader.x + invader.width) &&
@@ -256,7 +256,7 @@ PlayState.prototype.update = function(game, dt) {
   }
  
   //  Give each front rank invader a chance to drop a bomb.
-  if(this.fireDelay <= 0){
+  if(this.fireDelay <= 0) {
     for(var i=0; i<this.config.invaderFiles; i++) {
       var invader = frontRankInvaders[i];
       if(!invader) continue;
@@ -271,15 +271,15 @@ PlayState.prototype.update = function(game, dt) {
   }
 
 
-  if(game.invincibleCounter > 0){
+  if(game.invincibleCounter > 0) {
     game.invincibleCounter = Math.max(0, game.invincibleCounter - dt);
     game.rumbleCounter = game.rumbleCounter- dt;
-    if(game.rumbleCounter <= 0){
+    if(game.rumbleCounter <= 0) {
       game.rumbleCounter = game.config.rumbleInterval;
       game.rumbleOffset *= -1;
     }
   }
-  else if(game.rumbleOffset != 0){
+  else if(game.rumbleOffset != 0) {
     game.rumbleOffset = 0;
   }
 
@@ -288,9 +288,9 @@ PlayState.prototype.update = function(game, dt) {
     var bomb = this.bombs[i];
     var ship = this.ship;
     var dist2 = (bomb.x - ship.x) * (bomb.x - ship.x) + (bomb.y - ship.y) * (bomb.y - ship.y);
-    if(dist2 <= ship.r2){
+    if(dist2 <= ship.r2) {
       this.bombs.splice(i--, 1);
-      if(game.invincibleCounter == 0){
+      if(game.invincibleCounter == 0) {
         game.invincibleCounter = game.config.invincibleDuration;
         game.rumbleCounter = game.config.rumbleInterval;
         game.rumbleOffset = game.config.rumbleWidth;
@@ -314,12 +314,12 @@ PlayState.prototype.update = function(game, dt) {
   }
 
 //  Check for rocket/mothership collisions.
-  if(this.mothership && this.rockets.length > 0){
+  if(this.mothership && this.rockets.length > 0) {
     var rocket = this.rockets[0];
     var ms = this.mothership;
 
     var dist2 = (rocket.x - ms.x) * (rocket.x - ms.x) + (rocket.y - ms.y) * (rocket.y - ms.y);
-    if(dist2 <= ms.r2){
+    if(dist2 <= ms.r2) {
       //  Remove the rocket, set 'bang' so we don't process
       //  this rocket again.
       this.rockets.splice(0, 1);
@@ -334,7 +334,7 @@ PlayState.prototype.update = function(game, dt) {
   // Decrement scores
   for(var i=0; i<this.scores.length; i++) {
     this.scores[i].duration -= dt;
-    if(this.scores[i].duration <= 0){
+    if(this.scores[i].duration <= 0) {
       this.scores.splice(i--, 1);
     }
   }
@@ -355,7 +355,7 @@ PlayState.prototype.update = function(game, dt) {
 
 PlayState.prototype.fireRocket = function() {
   // only fire a rocket if one is not in flight
-  if(this.rockets.length == 0){
+  if(this.rockets.length == 0) {
     this.rockets.push(new Rocket(this.ship.x, this.ship.y - 12, this.config.rocketVelocity));
     game.playSound('laser');
   }
@@ -375,7 +375,7 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   var lifeHeight = 55;
   var lifeWidth = 55;
   livesY += lifeHeight / 2;
-  for(i = 0; i < game.lives; i++){
+  for(i = 0; i < game.lives; i++) {
     ctx.drawImage(spicerex_head, livesX, livesY + i * lifeHeight, lifeWidth, lifeHeight);
     livesY += 10;
   }
@@ -390,19 +390,19 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillText(game.score, game.gameBounds.left - 85, scoreY + 30);
 
   //  Draw ship.
-  if(game.invincibleCounter > 0){
+  if(game.invincibleCounter > 0) {
     ctx.save();
     ctx.globalAlpha=.5;
     ctx.fillStyle = '#999999';
   }
   var ship_idx = Math.floor(Math.random() * 4);
   ctx.drawImage(spice_ship, this.ship.x - this.ship.width / 2 + game.rumbleOffset, this.ship.y - this.ship.height / 2, this.ship.width, this.ship.height);
-  if(game.invincibleCounter > 0){
+  if(game.invincibleCounter > 0) {
     ctx.restore();
   }
 
   //  Draw mothership.
-  if(this.mothership != null){
+  if(this.mothership != null) {
     ctx.fillStyle = '#999999';
     ctx.drawImage(motherships[this.mothership.idx],
                   this.mothership.x - this.mothership.width / 2,

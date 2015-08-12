@@ -69,12 +69,12 @@ Game.prototype.initialise = function(gameCanvas) {
   var game = this;
   this.gameCanvas = gameCanvas;
 
-  if(self == top){
-    $(document).ready(function(){
+  if(self == top) {
+    $(document).ready(function() {
       console.log('self == top');
       $('.ticket').remove();
       console.log('removed .ticket');
-      html2canvas($('.mock_ticket')[0], { onrendered: function(canvas){
+      html2canvas($('.mock_ticket')[0], { onrendered: function(canvas) {
         console.log('HI');
         box = canvas.getContext('2d');
         $('.mock_ticket').remove();
@@ -83,11 +83,11 @@ Game.prototype.initialise = function(gameCanvas) {
   }
   else{
     $('.mock_ticket').remove();
-    $(document).ready(function(){
+    $(document).ready(function() {
       var card = new SW.Card();
-      card.services("helpdesk").on('showTicket', function(ticketId){
+      card.services("helpdesk").on('showTicket', function(ticketId) {
         game.ticketId = ticketId;
-        card.services('helpdesk').request('ticket', ticketId).then(function(ticket){
+        card.services('helpdesk').request('ticket', ticketId).then(function(ticket) {
           document.getElementById('summary').innerHTML = ticket['summary'];
           document.getElementById('description').innerHTML = ticket['description'];
           document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
@@ -96,7 +96,7 @@ Game.prototype.initialise = function(gameCanvas) {
           document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
           var description = ticket['description'];
 
-          html2canvas($('ticket')[0], { onrendered: function(canvas){
+          html2canvas($('ticket')[0], { onrendered: function(canvas) {
             box = canvas.getContext('2d');
             $('.ticket').remove();
           }});

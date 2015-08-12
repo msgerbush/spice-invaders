@@ -3,7 +3,7 @@ function GameOverState() {
 
 };
 
-GameOverState.prototype.draw = function(game, dt, ctx){
+GameOverState.prototype.draw = function(game, dt, ctx) {
   ctx.drawImage(background, 0, 0, game.width, game.height);
   ctx.font="42px Orbitron";
   ctx.textAlign = 'center';
@@ -20,7 +20,7 @@ GameOverState.prototype.draw = function(game, dt, ctx){
 };
 
 GameOverState.prototype.keyDown = function(game, keyCode) {
-  if(keyCode == 82){
+  if(keyCode == 82) {
     game.moveToState(new LevelIntroState(game.level));
   }
 };

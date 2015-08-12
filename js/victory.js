@@ -10,7 +10,7 @@ VictoryState.prototype.enter = function(game) {
   this.closed = false;
 }
 
-VictoryState.prototype.draw = function(game, dt, ctx){
+VictoryState.prototype.draw = function(game, dt, ctx) {
   ctx.drawImage(background, 0, 0, game.width, game.height);
   ctx.font="42px Orbitron";
   ctx.textAlign = 'center';
@@ -41,7 +41,7 @@ VictoryState.prototype.update = function(game, dt) {
     this.foundershipLeft = !this.foundershipLeft;
   }
 
-  if(!this.closed && this.time > game.config.victoryTime){
+  if(!this.closed && this.time > game.config.victoryTime) {
     card.services('helpdesk').request('ticket:update', game.ticketId, { status: 'closed' });
     this.closed = true;
     //card.services('environment').trigger('navigate', 'tickets/v2#closed_tickets/' + game.ticketId);
