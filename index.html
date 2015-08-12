@@ -68,11 +68,6 @@
     <script src="js/gameover.js"></script>
     <script src="js/victory.js"></script>
     <script>
-      html2canvas($('.mock_ticket')[0],
-          { onrendered: function(canvas){
-            console.log('HI');
-          } } );
-
       //  Setup the canvas.
       var card = new SW.Card();
       var canvas = document.getElementById("gameCanvas");
