@@ -93,7 +93,7 @@ Game.prototype.initialise = function(gameCanvas) {
           document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
           var description = ticket['description'];
 
-          html2canvas($('ticket')[0], { onrendered: function(canvas) {
+          html2canvas($('.ticket')[0], { onrendered: function(canvas) {
             box = canvas.getContext('2d');
             $('.ticket').remove();
           }});
