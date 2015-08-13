@@ -89,12 +89,13 @@ Game.prototype.initialise = function(gameCanvas) {
         game.ticketId = ticketId;
         card.services('helpdesk').request('ticket', ticketId).then(function(ticket) {
           console.log('ticket request');
-          document.getElementById('summary').innerHTML = ticket['summary'];
-          document.getElementById('description').innerHTML = ticket['description'];
-          document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
-          document.getElementById('status').innerHTML = "Status: " + ticket['status'];
-          document.getElementById('ticketID').innerHTML = "ID: " + ticket['id'];
-          document.getElementById('author').innerHTML = "Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name'];
+          t = $('.ticket');
+          t.find('.summary').html(ticket['summary']);
+          t.find('.description').html(ticket['description']);
+          t.find('.priority').html("Priority: " + ticket['priority']);
+          t.find('.status').html("Status: " + ticket['status']);
+          t.find('.ticketID').html("ID: " + ticket['id']);
+          t.find('.author').html("Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name']);
           var description = ticket['description'];
 
           console.log($('.ticket')[0]);
