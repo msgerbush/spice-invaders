@@ -79,16 +79,12 @@ Game.prototype.initialise = function(gameCanvas) {
     });
   }
   else{
-    console.log('else');
     $('.mock_ticket').remove();
     $(document).ready(function() {
-      console.log('ready');
       var card = new SW.Card();
       card.services("helpdesk").on('showTicket', function(ticketId) {
-        console.log('showticket');
         game.ticketId = ticketId;
         card.services('helpdesk').request('ticket', ticketId).then(function(ticket) {
-          console.log('ticket request');
           t = $('.ticket');
           t.find('.summary').html(ticket['summary']);
           t.find('.description').html(ticket['description']);
@@ -98,9 +94,7 @@ Game.prototype.initialise = function(gameCanvas) {
           t.find('.author').html("Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name']);
           var description = ticket['description'];
 
-          console.log($('.ticket')[0]);
           html2canvas($('.ticket')[0], { onrendered: function(canvas) {
-            console.log('html2canvas onrendered');
             box = canvas.getContext('2d');
             $('.ticket').remove();
           }});
