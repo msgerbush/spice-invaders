@@ -79,12 +79,16 @@ Game.prototype.initialise = function(gameCanvas) {
     });
   }
   else{
+    console.log('else');
     $('.mock_ticket').remove();
     $(document).ready(function() {
+      console.log('ready');
       var card = new SW.Card();
       card.services("helpdesk").on('showTicket', function(ticketId) {
+        console.log('showticket');
         game.ticketId = ticketId;
         card.services('helpdesk').request('ticket', ticketId).then(function(ticket) {
+          console.log('ticket request');
           document.getElementById('summary').innerHTML = ticket['summary'];
           document.getElementById('description').innerHTML = ticket['description'];
           document.getElementById('priority').innerHTML = "Priority: " + ticket['priority'];
@@ -94,6 +98,7 @@ Game.prototype.initialise = function(gameCanvas) {
           var description = ticket['description'];
 
           html2canvas($('.ticket')[0], { onrendered: function(canvas) {
+            console.log('html2canvas onrendered');
             box = canvas.getContext('2d');
             $('.ticket').remove();
           }});
