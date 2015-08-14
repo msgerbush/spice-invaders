@@ -27,7 +27,8 @@ function Game() {
     rumbleWidth: 3,
     mothershipInterval: 2,
     wonDelay: 2.5,
-    victoryTime: 5
+    victoryTime: 5,
+    soundEnabled: false;
   };
 
   this.config.invaderWidth = this.config.ticketWidth / this.config.invaderFiles;
@@ -283,6 +284,8 @@ Game.prototype.keyUp = function(keyCode) {
 };
 
 Game.prototype.playSound = function(sound) {
-  var audio = new Audio(this.sounds[sound]);
-  audio.play();
+  if(this.config.soundEnabled) {
+    var audio = new Audio(this.sounds[sound]);
+    audio.play();
+  }
 }
