@@ -36,9 +36,9 @@ function Game() {
 
   this.sounds = {
     explosion: 'sound/rex_collision.mp3',
-    laser: 'sound/laser_blast.wav',
-    ticketBoom: 'sound/ship_explosion.wav',
-    mothership: 'sound/mothership_sound_1.wav'
+    laser: 'sound/laser_blast.mp3',
+    ticketBoom: 'sound/ship_explosion.mp3',
+    mothership: 'sound/mothership_sound_1.mp3'
   };
 
   // All state is in the variables below.
@@ -62,6 +62,14 @@ function Game() {
   this.gameCanvas = null;
 }
 
+function loadMockTicket(){
+  html2canvas($('.mock_ticket')[0], { onrendered: function(canvas) {
+    box = canvas.getContext('2d');
+    $('.mock_ticket').remove();
+    $('.ticket').remove();
+  }});
+}
+
 box = null;
 // constructor thingy
 Game.prototype.initialise = function(gameCanvas) {
@@ -71,14 +79,20 @@ Game.prototype.initialise = function(gameCanvas) {
 
   if(self == top) {
     $(document).ready(function() {
-      $('.ticket').remove();
-      html2canvas($('.mock_ticket')[0], { onrendered: function(canvas) {
-        box = canvas.getContext('2d');
-        $('.mock_ticket').remove();
-      }});
+      loadMockTicket();
     });
   }
   else{
+    var card = new SW.Card();
+    var timedOut = false;
+    var ticketTimout = setTimeout(function() {
+      console.log('timed out.');
+      timedOut = true;
+      loadMockTicket();
+    }, 1000);
+
+    loadRealTicket(ticketTimeout);
+
     $('.mock_ticket').remove();
     $(document).ready(function() {
       var card = new SW.Card();
