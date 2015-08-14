@@ -96,7 +96,7 @@ function loadRealTicket(game, ticketTimeout) {
       var description = ticket['description'];
       // store the ticket's rendered image in a canvas context
       html2canvas($('.ticket')[0], { onrendered: function(canvas) {
-        if(!timedOut){
+        if(game.ticketPending){
           box = canvas.getContext('2d');
           $('.ticket').remove();
           $('.mock_ticket').remove();
@@ -115,9 +115,7 @@ Game.prototype.initialise = function(gameCanvas) {
   //  Set the game canvas.
   var game = this;
   this.gameCanvas = gameCanvas;
-  var timedOut = false;
   var ticketTimeout = setTimeout(function() {
-    timedOut = true;
     loadMockTicket(game);
   }, 5000);
   loadRealTicket(game, ticketTimeout);
