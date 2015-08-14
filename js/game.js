@@ -119,7 +119,7 @@ Game.prototype.initialise = function(gameCanvas) {
   var ticketTimeout = setTimeout(function() {
     timedOut = true;
     loadMockTicket(game);
-  }, 2000);
+  }, 5000);
   loadRealTicket(game, ticketTimeout);
 
   //  Set the game width and height.
