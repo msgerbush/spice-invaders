@@ -61,14 +61,52 @@ function Game() {
   //  Input/output
   this.pressedKeys = {};
   this.gameCanvas = null;
+  this.ticketPending = true;
+  this.mockTicket = false;
 }
 
-function loadMockTicket(){
+function loadMockTicket(game) {
   html2canvas($('.mock_ticket')[0], { onrendered: function(canvas) {
     box = canvas.getContext('2d');
     $('.mock_ticket').remove();
     $('.ticket').remove();
+    game.ticketPending = false;
+    game.mockTicket = true;
   }});
+}
+
+function setTicketData(ticket) {
+  t = $('.ticket');
+  t.find('.summary').html(ticket['summary']);
+  t.find('.description').html(ticket['description']);
+  t.find('.priority').html("Priority: " + ticket['priority']);
+  t.find('.status').html("Status: " + ticket['status']);
+  t.find('.ticketID').html("ID: " + ticket['id']);
+  t.find('.author').html("Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name']);
+}
+
+function loadRealTicket(game, ticketTimeout) {
+  var card = new SW.Card();
+  // get the id of the ticket being selected
+  card.services("helpdesk").on('showTicket', function(ticketId) {
+    game.ticketId = ticketId;
+    // retrieve the ticket's data
+    card.services('helpdesk').request('ticket', ticketId).then(function(ticket) {
+      setTicketData(ticket);
+      var description = ticket['description'];
+      // store the ticket's rendered image in a canvas context
+      html2canvas($('.ticket')[0], { onrendered: function(canvas) {
+        if(!timedOut){
+          box = canvas.getContext('2d');
+          $('.ticket').remove();
+          $('.mock_ticket').remove();
+          clearTimeout(ticketTimeout);
+          game.ticketPending = false;
+          game.realTicket = true;
+        }
+      }});
+    });
+  });
 }
 
 box = null;
@@ -77,50 +115,12 @@ Game.prototype.initialise = function(gameCanvas) {
   //  Set the game canvas.
   var game = this;
   this.gameCanvas = gameCanvas;
-
-  if(self == top) {
-    $(document).ready(function() {
-      loadMockTicket();
-    });
-  }
-  else{
-    var card = new SW.Card();
-    var timedOut = false;
-    var ticketTimout = setTimeout(function() {
-      console.log('timed out.');
-      timedOut = true;
-      loadMockTicket();
-    }, 1000);
-
-    loadRealTicket(ticketTimeout);
-
-    $('.mock_ticket').remove();
-    $(document).ready(function() {
-      var card = new SW.Card();
-      card.services("helpdesk").on('showTicket', function(ticketId) {
-        game.ticketId = ticketId;
-        card.services('helpdesk').request('ticket', ticketId).then(function(ticket) {
-          t = $('.ticket');
-          t.find('.summary').html(ticket['summary']);
-          t.find('.description').html(ticket['description']);
-          t.find('.priority').html("Priority: " + ticket['priority']);
-          t.find('.status').html("Status: " + ticket['status']);
-          t.find('.ticketID').html("ID: " + ticket['id']);
-          t.find('.author').html("Author: " + ticket['creator']['first_name']+' ' +ticket['creator']['last_name']);
-          var description = ticket['description'];
-
-          html2canvas($('.ticket')[0], { onrendered: function(canvas) {
-            box = canvas.getContext('2d');
-            $('.ticket').remove();
-          }});
-        }, function() {
-          console.log('FAIL');
-        });
-      });
-
-    });
-  }
-
+  var timedOut = false;
+  var ticketTimeout = setTimeout(function() {
+    timedOut = true;
+    loadMockTicket(game);
+  }, 2000);
+  loadRealTicket(game, ticketTimeout);
 
   //  Set the game width and height.
   this.width = gameCanvas.width;
@@ -254,12 +254,26 @@ WelcomeState.prototype.draw = function(game, dt, ctx) {
   ctx.fillText("Spice Invaders", game.width / 2, game.height/2 - 40);
   ctx.font="16px Orbitron";
 
-  ctx.fillText("Press 'Space' to start.", game.width / 2, game.height/2);
-  ctx.fillText("Press 'Space' to fire and use the left and right arrow keys to move.", game.width / 2, game.height/2+40);
+  if(game.ticketPending) {
+    ctx.font="20px Orbitron";
+    ctx.fillText("Loading ticket data...", game.width / 2, game.height/2 + 30);
+  }
+  else {
+    if(game.mockTicket) {
+    ctx.font="20px Orbitron";
+      ctx.fillStyle = "#ff0000";
+      ctx.fillText("Unable to load helpdesk ticket. Using a mocked ticket instead.", game.width / 2, 110);
+      ctx.fillText("Are you in the helpdesk?", game.width / 2, 140);
+    }
+    ctx.fillStyle = font_color;
+    ctx.font="16px Orbitron";
+    ctx.fillText("Press 'Space' to start.", game.width / 2, game.height/2);
+    ctx.fillText("Press 'Space' to fire and use the left and right arrow keys to move.", game.width / 2, game.height/2+40);
+  }
 };
 
 WelcomeState.prototype.keyDown = function(game, keyCode) {
-  if(keyCode == 32) /*space*/ {
+  if(keyCode == 32 && !game.ticketPending) /*space*/ {
     //  Space starts the game.
     game.moveToState(new LevelIntroState(game.level));
   }
