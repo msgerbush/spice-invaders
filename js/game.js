@@ -260,8 +260,8 @@ WelcomeState.prototype.draw = function(game, dt, ctx) {
     if(game.mockTicket) {
     ctx.font="20px Orbitron";
       ctx.fillStyle = "#ff0000";
-      ctx.fillText("Unable to load helpdesk ticket. Using a mocked ticket instead.", game.width / 2, 110);
-      ctx.fillText("Are you in the helpdesk?", game.width / 2, 140);
+      ctx.fillText("Unable to load help desk ticket. Using a mocked ticket instead.", game.width / 2, 110);
+      ctx.fillText("Are you in the help desk?", game.width / 2, 140);
     }
     ctx.fillStyle = font_color;
     ctx.font="16px Orbitron";
