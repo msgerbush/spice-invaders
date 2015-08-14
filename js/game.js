@@ -102,6 +102,9 @@ Game.prototype.initialise = function(gameCanvas) {
           t = $('.ticket');
           t.find('.summary').html(ticket['summary']);
           t.find('.description').html(ticket['description']);
+          t.find('.description').elipsify({
+            count: 10
+          })
           t.find('.priority').html("Priority: " + ticket['priority']);
           t.find('.status').html("Status: " + ticket['status']);
           t.find('.ticketID').html("ID: " + ticket['id']);
