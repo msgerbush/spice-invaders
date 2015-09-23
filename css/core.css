@@ -33,6 +33,14 @@ body, html {
   display: none;
 }
 
+.ticket-table .ticket-option {
+  cursor: pointer;
+}
+
+.ticket-table .ticket-option:hover {
+  background-color: #DDD;
+}
+
 #ticket_selector_modal .modal-body {
   height: 400px;
 }

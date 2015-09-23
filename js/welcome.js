@@ -25,7 +25,7 @@ function addTicketRow(list, ticket) {
     assigneeName = "Unassigned";
   }
 
-  $('<tr>').appendTo(list)
+  $('<tr class="ticket-option">').appendTo(list)
     .append('<td>'+ ticket.id +'</td>')
     .append('<td>'+ ticket.summary +'</td>')
     .append('<td>'+ assigneeName +'</td>')
@@ -35,7 +35,7 @@ function addTicketRow(list, ticket) {
 
 function loadTickets() {
   card = new SW.Card();
-  card.services('helpdesk').request('tickets', {per_page: 8})
+  card.services('helpdesk').request('tickets', {status: 'open', per_page: 8})
     .then(function(data) {
       var $list = $('.ticket-list');
       data.tickets.forEach(function (ticket) {
