@@ -241,7 +241,7 @@ PlayState.prototype.update = function(game, dt) {
       frontRankInvaders[invader.file] = invader;
     }
   }
- 
+
   //  Give each front rank invader a chance to drop a bomb.
   if(this.fireDelay <= 0) {
     for(var i=0; i<this.config.invaderFiles; i++) {
@@ -290,7 +290,7 @@ PlayState.prototype.update = function(game, dt) {
 //  Check for invader/ship collisions.
   for(var i=0; i<this.invaders.length; i++) {
     var invader = this.invaders[i];
-    if((invader.x + invader.width/2) > (this.ship.x - this.ship.width/2) && 
+    if((invader.x + invader.width/2) > (this.ship.x - this.ship.width/2) &&
       (invader.x - invader.width/2) < (this.ship.x + this.ship.width/2) &&
       (invader.y + invader.height/2) > (this.ship.y - this.ship.height/2) &&
       (invader.y - invader.height/2) < (this.ship.y + this.ship.height/2)) {
@@ -402,7 +402,8 @@ PlayState.prototype.draw = function(game, dt, ctx) {
   ctx.fillStyle = '#006600';
   for(var i=0; i<this.invaders.length; i++) {
     var invader = this.invaders[i];
-    var img = box.getImageData(invader.ticket_x, invader.ticket_y, game.config.invaderWidth, game.config.invaderHeight);
+    var img = game.ticketCanvas.getContext("2d")
+      .getImageData(invader.ticket_x, invader.ticket_y, game.config.invaderWidth, game.config.invaderHeight);
     ctx.putImageData(img, invader.x, invader.y);
   }
 

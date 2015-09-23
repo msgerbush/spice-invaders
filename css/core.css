@@ -59,7 +59,7 @@ a:focus {
   height: 30%;
   border-bottom: solid 2px #b6b6b6;
   font-size: 12px;
-  
+
 }
 
 .lower{
@@ -92,8 +92,13 @@ a:focus {
   padding: 2px;
 }
 
+.ticket {
+  position: absolute;
+  top: 0;
+  left: 100%;
+}
+
 .ticketID {
-  
   margin: 2px;
   display: inline-block;
   padding: 2px;
@@ -130,7 +135,7 @@ a:focus {
   display: block;
   padding: 2px;
   float: right;
-  
+
 }
 
 .status {
@@ -140,4 +145,3 @@ a:focus {
   float: left;
   text-align: center;
 }
-

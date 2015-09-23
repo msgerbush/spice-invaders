@@ -63,12 +63,12 @@ function Game() {
   this.gameCanvas = null;
   this.ticketPending = true;
   this.mockTicket = false;
+  this.ticketCanvas = null;
 }
 
 function loadMockTicket(game) {
-  html2canvas($('.mock_ticket')[0], { onrendered: function(canvas) {
-    box = canvas.getContext('2d');
-    $('.mock_ticket').remove();
+  html2canvas($('#mock_ticket')[0], { onrendered: function(canvas) {
+    game.ticketCanvas = canvas;
     $('.ticket').remove();
     game.ticketPending = false;
     game.mockTicket = true;
@@ -76,7 +76,7 @@ function loadMockTicket(game) {
 }
 
 function setTicketData(ticket) {
-  t = $('.ticket');
+  t = $('#ticket');
   t.find('.summary').html(ticket['summary']);
   t.find('.description').html(ticket['description']);
   t.find('.priority').html("Priority: " + ticket['priority']);
@@ -95,11 +95,10 @@ function loadRealTicket(game, ticketTimeout) {
       setTicketData(ticket);
       var description = ticket['description'];
       // store the ticket's rendered image in a canvas context
-      html2canvas($('.ticket')[0], { onrendered: function(canvas) {
+      html2canvas($('#ticket')[0], { onrendered: function(canvas) {
         if(game.ticketPending){
-          box = canvas.getContext('2d');
+          game.ticketCanvas = canvas;
           $('.ticket').remove();
-          $('.mock_ticket').remove();
           clearTimeout(ticketTimeout);
           game.ticketPending = false;
           game.realTicket = true;
@@ -109,7 +108,6 @@ function loadRealTicket(game, ticketTimeout) {
   });
 }
 
-box = null;
 // constructor thingy
 Game.prototype.initialise = function(gameCanvas) {
   //  Set the game canvas.
@@ -164,7 +162,7 @@ Game.prototype.moveToState = function(state) {
   //  Are we already in a state?
   if(this.currentState()) {
 
-    //  Before we pop the current state, see if the 
+    //  Before we pop the current state, see if the
     //  state has a leave function. If it does we can call it.
     if(this.currentState().leave) {
        this.currentState().leave(game);
