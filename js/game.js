@@ -108,15 +108,21 @@ function loadRealTicket(game, ticketTimeout) {
   });
 }
 
+function loadTicketData(game) {
+  // Replace Me!!!  Make this do something cool
+  var ticketTimeout = setTimeout(function() {
+    loadMockTicket(game);
+  }, 5000);
+  loadRealTicket(game, ticketTimeout);
+}
+
 // constructor thingy
 Game.prototype.initialise = function(gameCanvas) {
   //  Set the game canvas.
   var game = this;
   this.gameCanvas = gameCanvas;
-  var ticketTimeout = setTimeout(function() {
-    loadMockTicket(game);
-  }, 5000);
-  loadRealTicket(game, ticketTimeout);
+
+  loadTicketData(game);
 
   //  Set the game width and height.
   this.width = gameCanvas.width;
