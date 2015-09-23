@@ -8,7 +8,7 @@ function ticketSelected(ticketRow, game){
   html2canvas($('#ticket')[0], {
     onrendered: function(canvas) {
       game.ticketCanvas = canvas;
-      // $('.ticket').remove();
+      $('.ticket').remove();
       $('#ticket_selector_modal').modal('hide');
       game.moveToState(new LevelIntroState(game.level));
     }
