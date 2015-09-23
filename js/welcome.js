@@ -16,34 +16,39 @@ function ticketSelected(ticketRow, game){
 }
 
 function addTicketRow(list, ticket) {
-  var priority = {1: 'High', 2: 'Med', 3: 'Low'}[ticket.priority];
-  var assignee = ticket.assignee;
-  var assigneeName;
-  if(assignee){
-    assigneeName = assignee.first_name + ' ' + assignee.last_name;
-  } else {
-    assigneeName = "Unassigned";
-  }
-
+  // Add row to list for a ticket object
   $('<tr class="ticket-option">').appendTo(list)
-    .append('<td>'+ ticket.id +'</td>')
-    .append('<td>'+ ticket.summary +'</td>')
-    .append('<td>'+ assigneeName +'</td>')
-    .append('<td>'+ priority +'</td>')
+    .append('<td colspan=4>Make Me Real Tickets!!!</td>')
+  // Leave this to store object for later using jQuery Data
     .data('ticket', ticket);
 }
 
 function loadTickets() {
-  card = new SW.Card();
-  card.services('helpdesk').request('tickets', {status: 'open', per_page: 8})
-    .then(function(data) {
-      var $list = $('.ticket-list');
-      data.tickets.forEach(function (ticket) {
-        addTicketRow($list, ticket);
-      });
-      $('.ticket-loading').hide();
-      $('.ticket-table').show();
-  	});
+  var $list = $('.ticket-list');
+  var fakeTicket = {
+    id: 123,
+    summary: 'Fake!',
+    description: 'yada yada yada',
+    priority: 2,
+    status: 'open',
+    creator: {
+      first_name: 'Art',
+      last_name: 'Vandalay'
+    }
+  }
+  // First: get real tickets from SW API
+  // Artificial delay, so you can see how it works...
+  setTimeout(function(){
+    // Add tickets as table rows
+    addTicketRow($list, fakeTicket);
+
+    // Hide loading state
+    $('.ticket-loading').hide();
+
+    // Show table
+    $('.ticket-table').show();
+  },3000);
+
 }
 
 WelcomeState.prototype.enter = function(game) {
